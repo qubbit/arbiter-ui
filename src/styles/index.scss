@@ -29,7 +29,7 @@ body {
 }
 
 .toolbar {
-  button:not(:last-child) {
+  button {
     margin-right: 8px;
     margin-bottom: 12px;
   }
@@ -43,7 +43,8 @@ body {
   margin-right: 50px;
 }
 
-code[class*='language-'], pre[class*='language-'] {
+code[class*='language-'],
+pre[class*='language-'] {
   font-family: 'SF Mono', monospace;
   white-space: pre-wrap !important;
   word-wrap: break-word;

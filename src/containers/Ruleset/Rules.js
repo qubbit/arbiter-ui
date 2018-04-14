@@ -9,7 +9,7 @@ const { Option } = Select;
 
 class Rules extends React.Component {
   handleFactChange = fact => {
-    this.props.changeActiveFact(fact);
+    this.props.changeFact(fact);
   };
 
   render() {
@@ -23,14 +23,16 @@ class Rules extends React.Component {
 
     return (
       <div className="rules-container">
-        <Button
-          title="Add Rule"
-          icon="plus"
-          type="primary"
-          onClick={() => fields.push({})}
-        >
-          Add Rule
-        </Button>
+        <div className="toolbar">
+          <Button
+            title="Add Rule"
+            icon="plus"
+            type="primary"
+            onClick={() => fields.push({})}
+          >
+            Add Rule
+          </Button>
+        </div>
         {fields.length > 0 && <div>When the</div>}
         {(touched || submitFailed) && error && <span>{error}</span>}
         {fields.map((rule, index) => (
@@ -52,7 +54,7 @@ class Rules extends React.Component {
                 onSelect={this.handleFactChange}
               >
                 {facts.map(f => (
-                  <Option key={f.identifier} value={f.identifier}>
+                  <Option key={f.name} value={f.name}>
                     {f.label}
                   </Option>
                 ))}
