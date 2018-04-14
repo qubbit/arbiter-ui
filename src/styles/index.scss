@@ -1,0 +1,50 @@
+@import '~antd/dist/antd.css';
+
+body {
+  padding: 30px;
+  font-size: 1.2rem;
+  font-family: 'Avenir Next';
+}
+
+.form-container {
+}
+
+.field-container {
+  display: inline-block;
+
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.flex-centered {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.flex-column {
+  display: flex;
+  align-items: start;
+}
+
+.toolbar {
+  button:not(:last-child) {
+    margin-right: 8px;
+    margin-bottom: 12px;
+  }
+}
+
+.col {
+  max-width: 50%;
+}
+
+.col:not(:last-child) {
+  margin-right: 50px;
+}
+
+code[class*='language-'], pre[class*='language-'] {
+  font-family: 'SF Mono', monospace;
+  white-space: pre-wrap !important;
+  word-wrap: break-word;
+}
