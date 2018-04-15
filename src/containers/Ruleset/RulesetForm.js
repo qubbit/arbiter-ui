@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import Rules from './Rules';
-import { Button, Radio, Select } from 'antd';
+import { Form, Button, Radio, Select } from 'antd';
 import {
   ARadioGroup,
   ASelect,
@@ -32,91 +32,86 @@ class RulesetForm extends React.Component {
 
     return (
       <div className="form-container col">
-        <div>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Logical Operator</label>
-              <div>
-                <Field
-                  name="logical_operator"
-                  component={ARadioGroup}
-                  value="male"
-                >
-                  <Radio value="all">All</Radio>
-                  <Radio value="any">Any</Radio>
-                </Field>
-              </div>
-            </div>
-
+        <div className="col">
+          <Form onSubmit={handleSubmit}>
             <FieldArray name="rules" component={Rules} />
-
             <div>
-              <label>then</label>
-              <div>
-                <Field
-                  name="action"
-                  component={ASelect}
-                  onSelect={this.handleActionChange}
-                >
-                  {Object.keys(actions).map(a => (
-                    <Option key={`action-${a}`} value={a}>
-                      {actions[a].label}
-                    </Option>
-                  ))}
-                </Field>
-              </div>
+              <Field
+                name="action"
+                label="Action"
+                component={ASelect}
+                onSelect={this.handleActionChange}
+              >
+                {Object.keys(actions).map(a => (
+                  <Option key={`action-${a}`} value={a}>
+                    {actions[a].label}
+                  </Option>
+                ))}
+              </Field>
             </div>
 
             {selectedAction &&
               actions[selectedAction].params.length > 0 && (
                 <div>
-                  <label>with</label>
                   {actions[selectedAction].params.map(p => (
-                    <div>
-                      <label>{p.name}</label>
-                      <Field name={`params.${p.name}`} component={AInput} />
-                    </div>
+                    <Field
+                      label={p.name}
+                      name={`params.${p.name}`}
+                      component={AInput}
+                    />
                   ))}
                 </div>
               )}
 
             <div>
-              <label>Description</label>
-              <div>
-                <Field name="description" component={ATextarea} />
-              </div>
+              <Field
+                label="Description"
+                name="description"
+                component={ATextarea}
+              />
             </div>
-            <div>
-              <label>Active</label>
-              <Field component={ASwitch} name="active" />
-            </div>
-            <div className="toolbar">
-              <Button
-                type="danger"
-                size="large"
-                disabled={pristine || submitting}
-                onClick={reset}
-              >
-                Clear
-              </Button>
-              <Button
-                type="secondary"
-                size="large"
-                icon="api"
-                disabled={pristine || submitting}
-              >
-                Test Ruleset
-              </Button>
-              <Button
-                type="primary"
-                size="large"
-                icon="save"
-                disabled={pristine || submitting}
-              >
-                Create Ruleset
-              </Button>
-            </div>
-          </form>
+          </Form>
+        </div>
+        {/* Toolbar column */}
+        <div className="col">
+          <Field
+            name="logical_operator"
+            component={ARadioGroup}
+            value="male"
+            label="Logical Operator"
+          >
+            <Radio value="all">All</Radio>
+            <Radio value="any">Any</Radio>
+          </Field>
+          <Field
+            component={ASwitch}
+            size="small"
+            name="active"
+            label="Active"
+          />
+          <div className="toolbar toolbar-vertical">
+            <Button
+              type="danger"
+              disabled={pristine || submitting}
+              onClick={reset}
+            >
+              Clear
+            </Button>
+            <Button
+              type="secondary"
+              icon="api"
+              disabled={pristine || submitting}
+            >
+              Test Ruleset
+            </Button>
+            <Button
+              type="primary"
+              icon="save"
+              disabled={pristine || submitting}
+            >
+              Create Ruleset
+            </Button>
+          </div>
         </div>
       </div>
     );
