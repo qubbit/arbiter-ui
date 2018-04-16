@@ -4,7 +4,7 @@ import { Select, Button } from 'antd';
 import { connect } from 'react-redux';
 import { ASelect } from '../../components/Elements';
 import * as rulesEngine from 'store/rulesEngine';
-import { Timeline, Icon } from 'antd';
+import { Timeline, Icon, Card } from 'antd';
 
 const { Option } = Select;
 
@@ -41,6 +41,11 @@ class Rules extends React.Component {
             Add Rule
           </Button>
         </div>
+        {fields.length === 0 && (
+          <Card style={{ width: 300 }}>
+            Hmm... there are no rules in this ruleset. Start by adding them
+          </Card>
+        )}
         {(touched || submitFailed) && error && <span>{error}</span>}
         <Timeline>
           {fields.map((rule, index) => (
