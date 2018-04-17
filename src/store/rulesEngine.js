@@ -4,10 +4,9 @@
 const initialState = {
   name: 'Response Modifier',
   config: { findBy: 'epa_type' },
-  rules: [],
   conditions: [
     { label: 'is one of', value: 'in' },
-    { label: 'equal to', value: 'eq' },
+    { label: 'is equal to', value: 'eq' },
     { label: 'does not equal to', value: 'not_eq' },
     { label: 'is less than', value: 'lt' },
     { label: 'is less than or equal to', value: 'lte' },

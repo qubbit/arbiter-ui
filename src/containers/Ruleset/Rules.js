@@ -64,6 +64,7 @@ class Rules extends React.Component {
                     name={`${rule}.fact`}
                     component={SelectField}
                     onSelect={this.handleFactChange}
+                    hasFeedback={false}
                     options={facts.map(f => ({
                       label: f.label,
                       value: f.name,
@@ -76,10 +77,11 @@ class Rules extends React.Component {
                     component={SelectField}
                     onChange={null}
                     options={rulesEngine.conditions}
+                    hasFeedback={false}
                   />
                 </div>
                 <div className="field-container">
-                  <RuleValue rule={rule} />
+                  <RuleValue rule={rule} hasFeedback={false} />
                 </div>
               </div>
             </Timeline.Item>

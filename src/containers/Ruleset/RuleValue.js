@@ -11,12 +11,24 @@ class RuleValue extends React.Component {
     const factObject = facts.find(f => f.name === selectedFact);
 
     if (typeof selectedValues === 'string') {
-      return <Field name={`${rule}.value`} component={TextField} />;
+      return (
+        <Field
+          name={`${rule}.value`}
+          hasFeedback={false}
+          component={TextField}
+        />
+      );
     } else if (
       typeof selectedValues === 'object' &&
       selectedValues.length === 0
     ) {
-      return <Field name={`${rule}.value`} component={TextField} />;
+      return (
+        <Field
+          hasFeedback={false}
+          name={`${rule}.value`}
+          component={TextField}
+        />
+      );
     }
 
     let options = values[selectedFact].map(x => ({
@@ -38,6 +50,7 @@ class RuleValue extends React.Component {
         name={`${rule}.value`}
         component={SelectField}
         options={options}
+        hasFeedback={false}
         mode={selectionMode}
       />
     );
