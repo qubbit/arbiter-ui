@@ -1,12 +1,11 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { Select, Button } from 'antd';
 import { connect } from 'react-redux';
-import { ASelect } from '../../components/Elements';
 import * as rulesEngine from 'store/rulesEngine';
-import { Timeline, Icon, Card } from 'antd';
+import { Timeline, Icon, Card, Button } from 'antd';
 
-const { Option } = Select;
+import RuleValue from './RuleValue';
+import { SelectField } from 'redux-form-antd';
 
 class Rules extends React.Component {
   handleFactChange = fact => {
@@ -20,7 +19,7 @@ class Rules extends React.Component {
       meta: { touched, error, submitFailed },
     } = this.props;
 
-    const { facts, selectedValues } = rulesEngine;
+    const { facts } = rulesEngine;
 
     // After the rule is tested and evaluates to true,
     // it needs to be marked with the follow dot and circle
@@ -28,7 +27,6 @@ class Rules extends React.Component {
       <Icon type="check-circle-o" style={{ fontSize: '16px' }} />
     );
     const ruleSuccessColor = 'green';
-
     return (
       <div className="rules-container">
         <div className="toolbar" style={{ marginBottom: '20px' }}>
@@ -64,39 +62,24 @@ class Rules extends React.Component {
                 <div className="field-container">
                   <Field
                     name={`${rule}.fact`}
-                    component={ASelect}
+                    component={SelectField}
                     onSelect={this.handleFactChange}
-                  >
-                    {facts.map(f => (
-                      <Option key={f.name} value={f.name}>
-                        {f.label}
-                      </Option>
-                    ))}
-                  </Field>
+                    options={facts.map(f => ({
+                      label: f.label,
+                      value: f.name,
+                    }))}
+                  />
                 </div>
                 <div className="field-container">
                   <Field
                     name={`${rule}.condition`}
-                    component={ASelect}
+                    component={SelectField}
                     onChange={null}
-                  >
-                    <Option value="in">is one of</Option>
-                    <Option value="eq">is exactly</Option>
-                    <Option value="not_eq">does not equal</Option>
-                  </Field>
+                    options={rulesEngine.conditions}
+                  />
                 </div>
                 <div className="field-container">
-                  <Field
-                    name={`${rule}.value`}
-                    component={ASelect}
-                    onChange={null}
-                  >
-                    {selectedValues.map(f => (
-                      <Option key={f} value={f}>
-                        {f}
-                      </Option>
-                    ))}
-                  </Field>
+                  <RuleValue rule={rule} />
                 </div>
               </div>
             </Timeline.Item>

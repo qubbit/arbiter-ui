@@ -5,6 +5,15 @@ const initialState = {
   name: 'Response Modifier',
   config: { findBy: 'epa_type' },
   rules: [],
+  conditions: [
+    { label: 'is one of', value: 'in' },
+    { label: 'equal to', value: 'eq' },
+    { label: 'does not equal to', value: 'not_eq' },
+    { label: 'is less than', value: 'lt' },
+    { label: 'is less than or equal to', value: 'lte' },
+    { label: 'is greater than', value: 'gt' },
+    { label: 'is greater than or equal to', value: 'gte' },
+  ],
   facts: [
     {
       name: 'epa_type',
@@ -31,9 +40,11 @@ const initialState = {
   values: {
     epa_type: ['ESI', 'Anthem', 'Aetna'],
     reason_code: ['BY', 'BX', 'CD'],
+    note: '',
   },
   selectedValues: [],
   selectedAction: '',
+  selectedFact: '',
 };
 
 // ^ We may want to decouple selectedValues and selectedAction from the
@@ -55,8 +66,12 @@ export const actions = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'FACT_CHANGED':
-      const values = state.values[action.fact] || [];
-      return { ...state, selectedValues: [...values] };
+      const values = state.values[action.fact];
+      return {
+        ...state,
+        selectedFact: action.fact,
+        selectedValues: values,
+      };
     case 'ACTION_CHANGED':
       return { ...state, selectedAction: action.action };
     default:
