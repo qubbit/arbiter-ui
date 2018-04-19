@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
+import { SelectField, TextField, TextAreaField } from 'redux-form-antd';
 import Rules from './Rules';
-import { Form, Button, Radio, Select } from 'antd';
-import {
-  ARadioGroup,
-  ASelect,
-  AInput,
-  ATextarea,
-  ASwitch,
-} from '../../components/Elements';
+import { Collapse, Form, Button, Radio, Select } from 'antd';
+import { ARadioGroup, ASelect, ASwitch } from '../../components/Elements';
 import * as rulesEngine from 'store/rulesEngine';
 
 const { Option } = Select;
+const { Panel } = Collapse;
 
 class RulesetForm extends React.Component {
   handleActionChange = action => {
     this.props.changeAction(action);
+  };
+
+  handleTestRuleset = () => {
+    this.props.testRuleset({});
   };
 
   render() {
@@ -35,6 +35,16 @@ class RulesetForm extends React.Component {
         <div className="col">
           <Form onSubmit={handleSubmit}>
             <FieldArray name="rules" component={Rules} />
+            <Collapse bordered={false} defaultActiveKey={['1']}>
+              <Panel header="Test Payload" key="test-payload-panel">
+                <Field
+                  component={TextAreaField}
+                  name="test_payload"
+                  hasFeedback={false}
+                  style={{ fontFamily: 'SF Mono' }}
+                />
+              </Panel>
+            </Collapse>
             <div>
               <Field
                 name="action"
@@ -57,7 +67,8 @@ class RulesetForm extends React.Component {
                     <Field
                       label={p.name}
                       name={`params.${p.name}`}
-                      component={AInput}
+                      component={TextField}
+                      hasFeedback={false}
                     />
                   ))}
                 </div>
@@ -67,7 +78,8 @@ class RulesetForm extends React.Component {
               <Field
                 label="Description"
                 name="description"
-                component={ATextarea}
+                component={TextAreaField}
+                hasFeedback={false}
               />
             </div>
           </Form>
@@ -101,6 +113,7 @@ class RulesetForm extends React.Component {
               type="secondary"
               icon="api"
               disabled={pristine || submitting}
+              onClick={this.handleTestRuleset}
             >
               Test Ruleset
             </Button>

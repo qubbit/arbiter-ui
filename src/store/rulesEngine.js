@@ -1,3 +1,5 @@
+import api from '../utils/api.js';
+
 // A ruleset can be stored in a database, how do we want to key that ruleset?
 // For this purpose we will choose one of the facts
 
@@ -57,9 +59,22 @@ export function changeAction(action) {
   return dispatch => dispatch({ type: 'ACTION_CHANGED', action });
 }
 
+export function testRuleset(data) {
+  return dispatch =>
+    api
+      .post('/validate_rules', data)
+      .then(response => {
+        dispatch({ type: 'CALL_VALIDATION_API_SUCCESS', response });
+      })
+      .catch(error => {
+        dispatch({ type: 'CALL_VALIDATION_API_FAILURE', error });
+      });
+}
+
 export const actions = {
   changeFact,
   changeAction,
+  testRuleset,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -73,6 +88,10 @@ export const reducer = (state = initialState, action) => {
       };
     case 'ACTION_CHANGED':
       return { ...state, selectedAction: action.action };
+    case 'CALL_VALIDATION_API_SUCCESS':
+      return { ...state, validationResult: action.response };
+    case 'CALL_VALIDATION_API_FAILURE':
+      return { ...state, validationResult: action.error };
     default:
       return state;
   }

@@ -1,40 +1,59 @@
-export const callApi = (url, options) =>
-  fetch(url)
-    .then(handleResponse)
-    .then(data => data)
-    .catch(error => error);
+const API_URL = 'http://localhost:3000';
 
-const handleResponse = response => {
-  const contentType = response.headers.get('content-type');
-  if (contentType.includes('application/json')) {
-    return handleJSON(response);
-  } else if (contentType.includes('text/html')) {
-    return handleText(response);
-  }
-  throw new Error(`${contentType} is not supported`);
+function headers() {
+  return {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+}
+
+function parseResponse(response) {
+  return response.json().then(json => {
+    if (!response.ok) {
+      return Promise.reject(json);
+    }
+    return json;
+  });
+}
+
+function queryString(params) {
+  const query = Object.keys(params)
+    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+    .join('&');
+  return `${query.length ? '?' : ''}${query}`;
+}
+
+export default {
+  fetch(path, params = {}) {
+    return fetch(`${API_URL}${path}${queryString(params)}`, {
+      method: 'GET',
+      headers: headers(),
+    }).then(parseResponse);
+  },
+
+  post(path, data) {
+    const body = JSON.stringify(data);
+    return fetch(`${API_URL}${path}`, {
+      method: 'POST',
+      headers: headers(),
+      body,
+    }).then(parseResponse);
+  },
+
+  patch(path, data) {
+    const body = JSON.stringify(data);
+
+    return fetch(`${API_URL}${path}`, {
+      method: 'PATCH',
+      headers: headers(),
+      body,
+    }).then(parseResponse);
+  },
+
+  delete(path) {
+    return fetch(`${API_URL}${path}`, {
+      method: 'DELETE',
+      headers: headers(),
+    }).then(parseResponse);
+  },
 };
-
-const handleJSON = response =>
-  response.json().then(json => {
-    if (response.ok) {
-      return json;
-    }
-    return Promise.reject(
-      Object.assign({}, json, {
-        status: response.status,
-        statusText: response.statusText,
-      }),
-    );
-  });
-
-const handleText = response =>
-  response.text().then(text => {
-    if (response.ok) {
-      return text;
-    }
-    return Promise.reject({
-      status: response.status,
-      statusText: response.statusText,
-      err: text,
-    });
-  });
