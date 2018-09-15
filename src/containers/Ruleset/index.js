@@ -19,4 +19,7 @@ const mapStateToProps = state => {
   return { rulesEngine: state.rulesEngine };
 };
 
-export default connect(mapStateToProps, null)(Ruleset);
+export default connect(
+  mapStateToProps,
+  null,
+)(Ruleset);

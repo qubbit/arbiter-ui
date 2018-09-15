@@ -139,7 +139,10 @@ const mapDispatchToProps = {
   ...rulesEngine.actions,
 };
 
-RulesetForm = connect(mapStateToProps, mapDispatchToProps)(RulesetForm);
+RulesetForm = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RulesetForm);
 
 export default reduxForm({
   form: 'rulesetForm', // a unique identifier for this form

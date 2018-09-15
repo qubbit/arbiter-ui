@@ -65,4 +65,7 @@ const mapDispatchToProps = {
   ...rulesEngine.actions,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RuleValue);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RuleValue);

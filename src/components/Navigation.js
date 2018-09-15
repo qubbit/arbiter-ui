@@ -28,7 +28,8 @@ class Navigation extends Component {
           </Menu.Item>
           <Menu.Item key="show">
             <Link className="nav__link" to="/rulesets">
-              <Icon type="profile" />View All
+              <Icon type="profile" />
+              View All
             </Link>
           </Menu.Item>
         </Menu>
