@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import { SelectField, TextField, TextAreaField } from 'redux-form-antd';
+import { Select, TextField } from 'redux-form-antd';
 import Rules from './Rules';
-import { Collapse, Form, Button, Radio, Select } from 'antd';
+import { Collapse, Form, Button, Radio, Select as S } from 'antd';
 import { ARadioGroup, ASelect, ASwitch } from '../../components/Elements';
 import * as rulesEngine from 'store/rulesEngine';
 
-const { Option } = Select;
+const { Option } = S;
 const { Panel } = Collapse;
 
 class RulesetForm extends React.Component {
@@ -38,7 +38,7 @@ class RulesetForm extends React.Component {
             <Collapse bordered={false} defaultActiveKey={['1']}>
               <Panel header="Test Payload" key="test-payload-panel">
                 <Field
-                  component={TextAreaField}
+                  component={S}
                   name="test_payload"
                   hasFeedback={false}
                   style={{ fontFamily: 'SF Mono' }}
@@ -78,7 +78,7 @@ class RulesetForm extends React.Component {
               <Field
                 label="Description"
                 name="description"
-                component={TextAreaField}
+                component={TextField}
                 hasFeedback={false}
               />
             </div>

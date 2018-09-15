@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import configureStore from './configureStore';
-import routes from './routes';
+import routes from './routes.js';
 import './styles/index.scss';
 
 const store = configureStore();

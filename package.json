@@ -42,7 +42,7 @@
     "react-time-format": "0.0.5",
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
-    "redux-form-antd": "^1.0.5",
+    "redux-form-antd": "^3.0.3",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "whatwg-fetch": "2.0.3"
