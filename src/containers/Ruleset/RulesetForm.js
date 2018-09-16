@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Select, TextField } from 'redux-form-antd';
 import Rules from './Rules';
+import RuleGroup from './RuleGroup';
+import Rule from './Rule';
 import { Collapse, Form, Button, Radio, Select as S } from 'antd';
 import { ARadioGroup, ASelect, ASwitch } from '../../components/Elements';
 import * as rulesEngine from 'store/rulesEngine';
@@ -33,99 +35,10 @@ class RulesetForm extends React.Component {
     return (
       <div className="form-container col">
         <div className="col">
-          <Form onSubmit={handleSubmit}>
-            <FieldArray name="rules" component={Rules} />
-            <Collapse bordered={false} defaultActiveKey={['1']}>
-              <Panel header="Test Payload" key="test-payload-panel">
-                <Field
-                  component={S}
-                  name="test_payload"
-                  hasFeedback={false}
-                  style={{ fontFamily: 'SF Mono' }}
-                />
-              </Panel>
-            </Collapse>
-            <div>
-              <Field
-                name="action"
-                label="Action"
-                component={ASelect}
-                onSelect={this.handleActionChange}
-              >
-                {Object.keys(actions).map(a => (
-                  <Option key={`action-${a}`} value={a}>
-                    {actions[a].label}
-                  </Option>
-                ))}
-              </Field>
-            </div>
-
-            {selectedAction &&
-              actions[selectedAction].params.length > 0 && (
-                <div>
-                  {actions[selectedAction].params.map(p => (
-                    <Field
-                      label={p.name}
-                      name={`params.${p.name}`}
-                      component={TextField}
-                      hasFeedback={false}
-                    />
-                  ))}
-                </div>
-              )}
-
-            <div>
-              <Field
-                label="Description"
-                name="description"
-                component={TextField}
-                hasFeedback={false}
-              />
-            </div>
-          </Form>
+          <RuleGroup />
+          <Rule />
         </div>
         {/* Toolbar column */}
-        <div className="col">
-          <Field
-            name="logical_operator"
-            component={ARadioGroup}
-            value="male"
-            label="Logical Operator"
-          >
-            <Radio value="all">All</Radio>
-            <Radio value="any">Any</Radio>
-          </Field>
-          <Field
-            component={ASwitch}
-            size="small"
-            name="active"
-            label="Active"
-          />
-          <div className="toolbar toolbar-vertical">
-            <Button
-              type="danger"
-              disabled={pristine || submitting}
-              onClick={reset}
-            >
-              Clear
-            </Button>
-            <Button
-              type="secondary"
-              icon="api"
-              disabled={pristine || submitting}
-              onClick={this.handleTestRuleset}
-            >
-              Test Ruleset
-            </Button>
-            <Button
-              type="primary"
-              icon="save"
-              disabled={pristine || submitting}
-            >
-              Create Ruleset
-            </Button>
-          </div>
-        </div>
       </div>
     );
   }
@@ -144,6 +57,4 @@ RulesetForm = connect(
   mapDispatchToProps,
 )(RulesetForm);
 
-export default reduxForm({
-  form: 'rulesetForm', // a unique identifier for this form
-})(RulesetForm);
+export default RulesetForm;

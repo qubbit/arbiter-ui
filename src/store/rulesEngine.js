@@ -6,14 +6,16 @@ import api from '../utils/api.js';
 const initialState = {
   name: 'Response Modifier',
   config: { findBy: 'epa_type' },
-  conditions: [
-    { label: 'is one of', value: 'in' },
-    { label: 'is equal to', value: 'eq' },
-    { label: 'does not equal to', value: 'not_eq' },
-    { label: 'is less than', value: 'lt' },
-    { label: 'is less than or equal to', value: 'lte' },
-    { label: 'is greater than', value: 'gt' },
-    { label: 'is greater than or equal to', value: 'gte' },
+  operators: [
+    { label: 'in', value: 'in' },
+    { label: 'not in', value: 'not_in' },
+    { label: 'matches', value: 'matches' },
+    { label: '=', value: 'eq' },
+    { label: '\u2260', value: 'not_eq' },
+    { label: '<', value: 'lt' },
+    { label: '\u2264', value: 'lte' },
+    { label: '>', value: 'gt' },
+    { label: '\u2265', value: 'gte' },
   ],
   facts: [
     {
