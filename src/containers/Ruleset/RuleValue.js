@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import { SelectField, TextField } from 'redux-form-antd';
-import * as rulesEngine from 'store/rulesEngine';
+import * as schema from 'store/schema';
 
 class RuleValue extends React.Component {
   render() {
-    const { rulesEngine, rule } = this.props;
-    const { facts, selectedFact, values, selectedValues } = rulesEngine;
+    const { schema, rule } = this.props;
+    const { facts, selectedFact, values, selectedValues } = schema;
     const factObject = facts.find(f => f.name === selectedFact);
 
     if (typeof selectedValues === 'string') {
@@ -58,11 +58,11 @@ class RuleValue extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { rulesEngine: state.rulesEngine };
+  return { schema: state.schema };
 };
 
 const mapDispatchToProps = {
-  ...rulesEngine.actions,
+  ...schema.actions,
 };
 
 export default connect(

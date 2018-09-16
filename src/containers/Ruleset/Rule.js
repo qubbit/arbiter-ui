@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Collapse, Input, Form, Button, Radio, Select } from 'antd';
-import * as rulesEngine from 'store/rulesEngine';
+import { Input, Button, Select } from 'antd';
+import { actions } from 'store';
 
 const { Option } = Select;
 
@@ -18,7 +18,7 @@ class Rule extends Component {
   }
 
   removeRule = event => {
-    console.log(event.target);
+    this.props.removeRule(this.props.id);
   };
 
   handleFactChange = event => {
@@ -35,7 +35,7 @@ class Rule extends Component {
     } = this.props;
 
     return (
-      <div className="rule">
+      <div className="rule" id={id} style={{ marginTop: '20px' }}>
         <div className="field-container">
           <Select
             name={fact}
@@ -65,7 +65,7 @@ class Rule extends Component {
           </Select>
         </div>
         <div className="field-container">
-          <Input placeholder="value" />
+          <Input placeholder="value" defaultValue={value} />
         </div>
         <Button
           className="field-container"
@@ -80,11 +80,12 @@ class Rule extends Component {
 }
 
 const mapStateToProps = state => {
-  return { schema: state.rulesEngine };
+  return { schema: state.schema };
 };
 
 const mapDispatchToProps = {
-  ...rulesEngine.actions,
+  ...actions.schema,
+  ...actions.ruleset,
 };
 
 Rule = connect(

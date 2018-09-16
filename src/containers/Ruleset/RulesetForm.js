@@ -1,55 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, FieldArray, reduxForm } from 'redux-form';
-import { Select, TextField } from 'redux-form-antd';
-import Rules from './Rules';
 import RuleGroup from './RuleGroup';
-import Rule from './Rule';
-import { Collapse, Form, Button, Radio, Select as S } from 'antd';
-import { ARadioGroup, ASelect, ASwitch } from '../../components/Elements';
-import * as rulesEngine from 'store/rulesEngine';
+import * as schema from 'store/schema';
 
-const { Option } = S;
-const { Panel } = Collapse;
-
-class RulesetForm extends React.Component {
-  handleActionChange = action => {
-    this.props.changeAction(action);
-  };
-
+class RulesetForm extends Component {
   handleTestRuleset = () => {
     this.props.testRuleset({});
   };
 
   render() {
-    const {
-      rulesEngine,
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-    } = this.props;
-
-    const { actions, selectedAction } = rulesEngine;
-
+    const { ruleset } = this.props;
     return (
       <div className="form-container col">
         <div className="col">
-          <RuleGroup />
-          <Rule />
+          <RuleGroup {...ruleset} />
         </div>
-        {/* Toolbar column */}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { rulesEngine: state.rulesEngine };
+  return { ruleset: state.ruleset.ruleset };
 };
 
 const mapDispatchToProps = {
-  ...rulesEngine.actions,
+  ...schema.actions,
 };
 
 RulesetForm = connect(

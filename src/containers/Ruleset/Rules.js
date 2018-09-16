@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { connect } from 'react-redux';
-import * as rulesEngine from 'store/rulesEngine';
+import * as schema from 'store/schema';
 import { Timeline, Icon, Card, Button } from 'antd';
 
 import RuleValue from './RuleValue';
@@ -14,12 +14,12 @@ class Rules extends React.Component {
 
   render() {
     const {
-      rulesEngine,
+      schema,
       fields,
       meta: { touched, error, submitFailed },
     } = this.props;
 
-    const { facts } = rulesEngine;
+    const { facts } = schema;
 
     // After the rule is tested and evaluates to true,
     // it needs to be marked with the follow dot and circle
@@ -76,7 +76,7 @@ class Rules extends React.Component {
                     name={`${rule}.condition`}
                     component={SelectField}
                     onChange={null}
-                    options={rulesEngine.conditions}
+                    options={schema.conditions}
                     hasFeedback={false}
                   />
                 </div>
@@ -93,11 +93,11 @@ class Rules extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { rulesEngine: state.rulesEngine };
+  return { schema: state.schema };
 };
 
 const mapDispatchToProps = {
-  ...rulesEngine.actions,
+  ...schema.actions,
 };
 
 export default connect(

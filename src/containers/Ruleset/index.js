@@ -16,7 +16,7 @@ class Ruleset extends Component {
 }
 
 const mapStateToProps = state => {
-  return { rulesEngine: state.rulesEngine };
+  return { schema: state.schema };
 };
 
 export default connect(

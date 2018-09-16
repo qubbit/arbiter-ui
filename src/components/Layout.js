@@ -6,7 +6,7 @@ class Layout extends Component {
     return (
       <div className="app">
         <Navigation />
-        {this.props.children}
+        {this.props.children.map((x, i) => ({ ...x, key: `route-${i}` }))}
       </div>
     );
   }
