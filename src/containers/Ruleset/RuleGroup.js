@@ -1,31 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Radio } from 'antd';
-import * as rulesEngine from 'store/rulesEngine';
+import { actions } from 'store';
+import Rule from './Rule';
 
-class RuleGroup extends React.Component {
+class RuleGroup extends Component {
   static get defaultProps() {
     return {
       id: null,
       parentId: null,
       rules: [],
-      combinator: 'and',
+      condition: 'and',
     };
   }
 
   addRule = event => {
-    console.log(event.target);
+    console.info(`Adding a rule to group ${this.props.id}`);
+    this.props.addRule(this.props.id);
   };
 
   addGroup = event => {
-    console.log(event.target);
+    debugger;
+    console.info(`Adding a nested group inside group ${this.props.id}`);
+    this.props.addRuleGroup(this.props.id);
   };
 
   render() {
+    const { rules } = this.props;
     return (
-      <div className="rule-group">
+      <div className="rule-group" id={this.props.id}>
         <Radio.Group
-          defaultValue={this.props.combinator}
+          defaultValue={this.props.condition}
           buttonStyle="solid"
           className="field-container"
         >
@@ -38,17 +43,25 @@ class RuleGroup extends React.Component {
         <Button icon="plus" onClick={this.addGroup} className="field-container">
           Group
         </Button>
+        {rules.map(r => {
+          if (r.condition) {
+            return <RuleGroup key={r.id} {...r} />;
+          } else {
+            return <Rule key={r.id} {...r} />;
+          }
+        })}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { rulesEngine: state.rulesEngine };
+  return { schema: state.schema, rules: state.ruleset.ruleset.rules };
 };
 
 const mapDispatchToProps = {
-  ...rulesEngine.actions,
+  ...actions.schema,
+  ...actions.ruleset,
 };
 
 RuleGroup = connect(

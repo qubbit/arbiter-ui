@@ -1,5 +1,12 @@
-import * as rulesEngine from './rulesEngine';
+import * as schema from './schema';
+import * as ruleset from './ruleset';
 
 export const reducers = {
-  rulesEngine: rulesEngine.reducer,
+  schema: schema.reducer,
+  ruleset: ruleset.reducer,
+};
+
+export const actions = {
+  schema: schema.actions,
+  ruleset: ruleset.actions,
 };
