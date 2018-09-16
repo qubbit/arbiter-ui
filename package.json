@@ -19,7 +19,7 @@
   "author": "qubbit",
   "license": "MIT",
   "dependencies": {
-    "antd": "^3.4.1",
+    "antd": "^3.9.2",
     "babel-runtime": "6.26.0",
     "classnames": "^2.2.5",
     "history": "^4.7.2",
