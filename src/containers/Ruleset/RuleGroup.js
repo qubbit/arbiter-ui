@@ -20,15 +20,33 @@ class RuleGroup extends Component {
   };
 
   addGroup = event => {
-    debugger;
     console.info(`Adding a nested group inside group ${this.props.id}`);
     this.props.addRuleGroup(this.props.id);
   };
 
+  removeGroup = event => {
+    console.info(
+      `Removing nested group ${this.props.id} inside group ${
+        this.props.parentId
+      }`,
+    );
+    this.props.removeRuleGroup(this.props.id, this.props.parentId);
+  };
+
+  isRuleGroup(rule) {
+    return 'condition' in rule;
+  }
+
   render() {
-    const { rules } = this.props;
+    // console.log('props are', this.props);
+    const { id, parentId, rules } = this.props;
+    console.log('parent is', parentId);
     return (
-      <div className="rule-group" id={this.props.id}>
+      <div
+        className="rule-group"
+        id={this.props.id}
+        style={{ marginLeft: '20px', marginTop: '20px' }}
+      >
         <Radio.Group
           defaultValue={this.props.condition}
           buttonStyle="solid"
@@ -43,20 +61,21 @@ class RuleGroup extends Component {
         <Button icon="plus" onClick={this.addGroup} className="field-container">
           Group
         </Button>
-        {rules.map(r => {
-          if (r.condition) {
-            return <RuleGroup key={r.id} {...r} />;
-          } else {
-            return <Rule key={r.id} {...r} />;
-          }
-        })}
+        {parentId && (
+          <Button
+            icon="delete"
+            type="danger"
+            onClick={this.removeGroup}
+            className="field-container"
+          />
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { schema: state.schema, rules: state.ruleset.ruleset.rules };
+const mapStateToProps = (state, ownProps) => {
+  return { schema: state.schema, rules: state.ruleset.ruleset[ownProps.id] };
 };
 
 const mapDispatchToProps = {
@@ -64,9 +83,9 @@ const mapDispatchToProps = {
   ...actions.ruleset,
 };
 
-RuleGroup = connect(
+const ConnectedRuleGroup = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(RuleGroup);
 
-export default RuleGroup;
+export default ConnectedRuleGroup;

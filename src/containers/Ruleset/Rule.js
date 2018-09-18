@@ -18,7 +18,8 @@ class Rule extends Component {
   }
 
   removeRule = event => {
-    this.props.removeRule(this.props.id);
+    console.info(`Removing rule ${this.props.id} from ${this.props.parentId}`);
+    this.props.removeRule(this.props.parentId, this.props.id);
   };
 
   handleFactChange = event => {
@@ -35,7 +36,11 @@ class Rule extends Component {
     } = this.props;
 
     return (
-      <div className="rule" id={id} style={{ marginTop: '20px' }}>
+      <div
+        className="rule"
+        id={id}
+        style={{ marginLeft: '20px', marginTop: '20px' }}
+      >
         <div className="field-container">
           <Select
             name={fact}
