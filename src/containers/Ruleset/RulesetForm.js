@@ -9,8 +9,6 @@ class RulesetForm extends Component {
   };
 
   render() {
-    const { ruleset } = this.props;
-
     return (
       <div className="form-container col">
         <div className="col">

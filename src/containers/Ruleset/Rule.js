@@ -19,7 +19,7 @@ class Rule extends Component {
 
   removeRule = event => {
     console.info(`Removing rule ${this.props.id} from ${this.props.parentId}`);
-    this.props.removeRule(this.props.parentId, this.props.id);
+    this.props.removeRule(this.props.id, this.props.parentId);
   };
 
   handleFactChange = event => {
