@@ -9,7 +9,7 @@ class RuleGroup extends Component {
     return {
       id: null,
       parentId: null,
-      rules: [],
+      children: [],
       condition: 'and',
     };
   }
@@ -37,10 +37,21 @@ class RuleGroup extends Component {
     return 'condition' in rule;
   }
 
+  renderChild = childId => {
+    const { id, condition } = this.props;
+    if (condition) {
+      return <ConnectedRuleGroup id={childId} parentId={id} />;
+    }
+    return <Rule />;
+  };
+
   render() {
     // console.log('props are', this.props);
-    const { id, parentId, rules } = this.props;
-    console.log('parent is', parentId);
+    const { parentId, condition, children } = this.props;
+
+    if ('operator' in this.props) {
+      return <Rule {...this.props} />;
+    }
     return (
       <div
         className="rule-group"
@@ -48,7 +59,7 @@ class RuleGroup extends Component {
         style={{ marginLeft: '20px', marginTop: '20px' }}
       >
         <Radio.Group
-          defaultValue={this.props.condition}
+          defaultValue={condition}
           buttonStyle="solid"
           className="field-container"
         >
@@ -69,13 +80,14 @@ class RuleGroup extends Component {
             className="field-container"
           />
         )}
+        {children.map(this.renderChild)}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { schema: state.schema, rules: state.ruleset.ruleset[ownProps.id] };
+  return state.ruleset.ruleset[ownProps.id];
 };
 
 const mapDispatchToProps = {
