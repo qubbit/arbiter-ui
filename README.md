@@ -1,4 +1,4 @@
-Praxis UI
+Arbiter UI
 ==========
 
 UI for creating and manipulating business rules
