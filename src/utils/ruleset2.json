@@ -1,0 +1,65 @@
+{
+  "rules": {
+    "1": {
+      "id": "1",
+      "children": ["2", "3", "4"],
+      "condition": "and",
+      "parentId": null
+    },
+    "2": {
+      "id": "2",
+      "fact": null,
+      "operator": null,
+      "value": null,
+      "parentId": "1"
+    },
+    "3": {
+      "id": "3",
+      "fact": null,
+      "operator": null,
+      "value": null,
+      "parentId": "1"
+    },
+    "4": {
+      "id": "4",
+      "condition": "or",
+      "children": ["5", "6", "7"],
+      "parentId": "1"
+    },
+    "5": {
+      "id": "5",
+      "fact": null,
+      "operator": null,
+      "value": null,
+      "parentId": "4"
+    },
+    "6": {
+      "id": "6",
+      "fact": null,
+      "operator": null,
+      "value": null,
+      "parentId": "4"
+    },
+    "7": {
+      "id": "7",
+      "condition": "or",
+      "children": ["8", "9"],
+      "parentId": "4"
+    },
+    "8": {
+      "id": "8",
+      "fact": null,
+      "operator": null,
+      "value": null,
+      "parentId": "7"
+    },
+    "9": {
+      "id": "9",
+      "fact": null,
+      "operator": null,
+      "value": null,
+      "parentId": "7"
+    }
+  },
+  "actions": []
+}

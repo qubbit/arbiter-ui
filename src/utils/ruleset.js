@@ -1,25 +1,37 @@
-export function transformRuleset(ruleset) {
-  const { actions, rules } = ruleset;
+export function extractRoot(rules) {
+  var [_, root] = Object.entries(rules).filter(
+    ([_, v]) => v.parentId == null,
+  )[0];
+  return root;
+}
 
-  var parent = Object.entries(rules).filter(([_, v]) => v.parentId == null);
-  console.log(parent);
+export function processChild(id, rules) {
+  console.log(`processChild(${id})`);
 
-  function processChild(id) {
-    // console.log(`processChild(${id})`);
-
-    var children = rules[id].children;
-    if (children && children.length) {
-      for (var c of children) {
-        return { [rules[id].condition]: processChild(c) };
-      }
-    }
+  if (!('children' in rules[id])) {
     return rules[id];
   }
 
-  const accumulator = {};
-  Object.keys(rules).forEach(key => {
-    accumulator[key] = processChild(key);
-  });
+  var children = rules[id].children;
+  if (children.length) {
+    for (var i = 0; i < children.length; i++) {
+      children[i] = processChild(children[i], rules);
+    }
+    return { [rules[id].condition]: children };
+  }
+  return rules[id];
+}
 
-  return accumulator;
+export function transformRuleset(ruleset) {
+  const { actions, rules } = ruleset;
+
+  const root = extractRoot(rules);
+  const acc = { [root.condition]: root.children };
+
+  for (var i = 0; i < root.children.length; i++) {
+    var id = root.children[i];
+    root.children[i] = processChild(id, rules);
+  }
+
+  return acc;
 }
