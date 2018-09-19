@@ -1,42 +1,25 @@
-export function findRule(ruleset, ruleId) {
-  if (!ruleset) return null;
-  if (ruleset.id === ruleId) {
-    return ruleset;
-  } else if (Array.isArray(ruleset.rules)) {
-    for (const rule of ruleset.rules) {
-      const subRule = findRule(rule, ruleId);
-      if (subRule) return subRule;
+export function transformRuleset(ruleset) {
+  const { actions, rules } = ruleset;
+
+  var parent = Object.entries(rules).filter(([_, v]) => v.parentId == null);
+  console.log(parent);
+
+  function processChild(id) {
+    // console.log(`processChild(${id})`);
+
+    var children = rules[id].children;
+    if (children && children.length) {
+      for (var c of children) {
+        return { [rules[id].condition]: processChild(c) };
+      }
     }
+    return rules[id];
   }
-  return null;
-}
 
-export function findRuleParent(ruleset, ruleId) {
-  if (!ruleset) return null;
-  if (ruleset.id === ruleId) {
-    return ruleset;
-  } else {
-    for (const rule of ruleset.rules) {
-      return findRule(rule, ruleId);
-    }
-  }
-}
+  const accumulator = {};
+  Object.keys(rules).forEach(key => {
+    accumulator[key] = processChild(key);
+  });
 
-export function rmRule(ruleset, ruleId) {
-  const index = ruleset.rules.findIndex(r => r.id == ruleId);
-
-  if (ruleset.id === ruleId) {
-    ruleset = null;
-    return;
-  } else {
-    for (const rule of ruleset.rules) {
-      return rmRule(rule, ruleId);
-    }
-  }
-}
-
-export function findGroup(ruleset, groupId) {
-  if (!ruleset) return null;
-  if (ruleset.id === groupId) return ruleset;
-  return findGroup(ruleset.rules, groupId);
+  return accumulator;
 }
