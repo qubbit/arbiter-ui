@@ -1,12 +1,12 @@
 import api from '../utils/api.js';
 import * as ruleset from '../utils/ruleset.js';
-import uuid from 'uuid';
 import omit from 'lodash/omit';
+import uniqueId from 'lodash/uniqueId';
 
-const initialId = uuid();
+const id = uniqueId();
 
-const initialState = {
-  ruleset: { [initialId]: { id: initialId, children: [], condition: 'and' } },
+const INITIAL_STATE = {
+  ruleset: { [id]: { id: id, children: [], condition: 'and' } },
   actions: [],
 };
 
@@ -17,7 +17,7 @@ export function addRule(parentId) {
       type: 'ADD_RULE',
       data: {
         parentId,
-        rule: { id: uuid(), fact: null, operator: null, value: null },
+        rule: { id: uniqueId(), fact: null, operator: null, value: null },
       },
     });
 }
@@ -26,7 +26,10 @@ export function addRuleGroup(parentId) {
   return dispatch =>
     dispatch({
       type: 'ADD_RULE_GROUP',
-      data: { parentId, rules: { id: uuid(), condition: 'and', children: [] } },
+      data: {
+        parentId,
+        rules: { id: uniqueId(), condition: 'and', children: [] },
+      },
     });
 }
 
@@ -59,7 +62,7 @@ export const actions = {
   testRuleset,
 };
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'ADD_RULE':
       var parentId = action.data.parentId;
@@ -79,6 +82,7 @@ export const reducer = (state = initialState, action) => {
     case 'ADD_RULE_GROUP':
       var parentId = action.data.parentId;
       var parent = state.ruleset[parentId];
+      debugger;
 
       return {
         ...state,

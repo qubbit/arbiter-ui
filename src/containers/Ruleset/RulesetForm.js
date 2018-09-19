@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import RuleGroup from './RuleGroup';
+import ConnectedRuleGroup from './RuleGroup';
 import { actions } from 'store';
-import Rule from './Rule';
 
 class RulesetForm extends Component {
   handleTestRuleset = () => {
     this.props.testRuleset({});
   };
-
-  isRuleGroup(rule) {
-    return 'condition' in rule;
-  }
 
   render() {
     const { ruleset } = this.props;
@@ -19,14 +14,7 @@ class RulesetForm extends Component {
     return (
       <div className="form-container col">
         <div className="col">
-          {Object.keys(ruleset).map(k => {
-            var r = ruleset[k];
-            if (this.isRuleGroup(r)) {
-              return <RuleGroup key={r.id} {...r} />;
-            } else {
-              return <Rule key={r.id} {...r} />;
-            }
-          })}
+          <ConnectedRuleGroup id={'1'} />
         </div>
       </div>
     );
@@ -34,9 +22,7 @@ class RulesetForm extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // debugger;
   return { ruleset: state.ruleset.ruleset };
-  // return state[ownProps.id]; //
 };
 
 const mapDispatchToProps = {
