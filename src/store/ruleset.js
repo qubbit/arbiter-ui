@@ -1,20 +1,26 @@
 import api from '../utils/api.js';
-import * as ruleset from '../utils/ruleset.js';
 import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
+import {
+  ADD_RULE,
+  ADD_RULE_GROUP,
+  REMOVE_RULE,
+  REMOVE_RULE_GROUP,
+  CALL_VALIDATION_API_SUCCESS,
+  CALL_VALIDATION_API_FAILURE,
+} from '../actions/types.js';
 
-const id = uniqueId();
+const initialId = uniqueId();
 
 const INITIAL_STATE = {
-  ruleset: { [id]: { id: id, children: [], condition: 'and' } },
+  ruleset: { [initialId]: { id: initialId, children: [], condition: 'and' } },
   actions: [],
 };
 
-// Add new rule
 export function addRule(parentId) {
   return dispatch =>
     dispatch({
-      type: 'ADD_RULE',
+      type: ADD_RULE,
       data: {
         parentId,
         rule: { id: uniqueId(), fact: null, operator: null, value: null },
@@ -25,7 +31,7 @@ export function addRule(parentId) {
 export function addRuleGroup(parentId) {
   return dispatch =>
     dispatch({
-      type: 'ADD_RULE_GROUP',
+      type: ADD_RULE_GROUP,
       data: {
         parentId,
         rules: { id: uniqueId(), condition: 'and', children: [] },
@@ -33,13 +39,13 @@ export function addRuleGroup(parentId) {
     });
 }
 
-export function removeRule(parentId, ruleId) {
-  return dispatch =>
-    dispatch({ type: 'REMOVE_RULE', data: { parentId, ruleId } });
+export function removeRule(id, parentId) {
+  return dispatch => dispatch({ type: REMOVE_RULE, data: { id, parentId } });
 }
 
-export function removeRuleGroup(ruleGroup) {
-  return dispatch => dispatch({ type: 'REMOVE_RULE_GROUP', ruleGroup });
+export function removeRuleGroup(id, parentId) {
+  return dispatch =>
+    dispatch({ type: REMOVE_RULE_GROUP, data: { id, parentId } });
 }
 
 export function testRuleset(data) {
@@ -47,10 +53,10 @@ export function testRuleset(data) {
     api
       .post('/validate_rules', data)
       .then(response => {
-        dispatch({ type: 'CALL_VALIDATION_API_SUCCESS', response });
+        dispatch({ type: CALL_VALIDATION_API_SUCCESS, response });
       })
       .catch(error => {
-        dispatch({ type: 'CALL_VALIDATION_API_FAILURE', error });
+        dispatch({ type: CALL_VALIDATION_API_FAILURE, error });
       });
 }
 
@@ -63,9 +69,10 @@ export const actions = {
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
+  const parentId = action.data && action.data.parentId;
+
   switch (action.type) {
-    case 'ADD_RULE':
-      var parentId = action.data.parentId;
+    case ADD_RULE:
       var ruleId = action.data.rule.id;
       var group = state.ruleset[parentId];
       return {
@@ -79,10 +86,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [ruleId]: { ...action.data.rule, parentId },
         },
       };
-    case 'ADD_RULE_GROUP':
-      var parentId = action.data.parentId;
+    case ADD_RULE_GROUP:
       var parent = state.ruleset[parentId];
-      debugger;
 
       return {
         ...state,
@@ -95,11 +100,11 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [action.data.rules.id]: { ...action.data.rules },
         },
       };
-    case 'REMOVE_RULE':
-      const { ruleId, parentId } = action.data;
-      const newRuleset = omit(state.ruleset, ruleId);
+    case REMOVE_RULE:
+      let { id } = action.data;
+      const newRuleset = omit(state.ruleset, id);
       const newChildren = state.ruleset[parentId].children.filter(
-        x => x != ruleId,
+        x => x !== id,
       );
       return {
         ...state,
@@ -111,17 +116,19 @@ export const reducer = (state = INITIAL_STATE, action) => {
           },
         },
       };
-    case 'REMOVE_RULE_GROUP':
-      const { rId, pId } = action.data;
-      const nr = omit(state.ruleset, rId);
-      const nc = state.ruleset[pId].children.filter(x => x != rId);
+    case REMOVE_RULE_GROUP:
+      var { id } = action.data;
+      const updatedState = omit(state.ruleset, id);
+      const updatedChildren = state.ruleset[parentId].children.filter(
+        x => x !== id,
+      );
       return {
         ...state,
         ruleset: {
-          ...nr,
-          [pId]: {
-            ...state.ruleset[pId],
-            children: [...nc],
+          ...updatedState,
+          [parentId]: {
+            ...state.ruleset[parentId],
+            children: [...updatedChildren],
           },
         },
       };

@@ -46,7 +46,6 @@ class RuleGroup extends Component {
   };
 
   render() {
-    // console.log('props are', this.props);
     const { parentId, condition, children } = this.props;
 
     if ('operator' in this.props) {
