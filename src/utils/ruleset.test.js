@@ -1,5 +1,5 @@
 import * as ruleset from './ruleset';
-import r from './ruleset2.json';
+import r from './ruleset3.json';
 
 describe('.transformRuleset', () => {
   it('finds correct rule in an ruleset', () => {
