@@ -4,6 +4,8 @@ import uniqueId from 'lodash/uniqueId';
 import {
   ADD_RULE,
   ADD_RULE_GROUP,
+  UPDATE_RULE,
+  UPDATE_RULE_GROUP,
   REMOVE_RULE,
   REMOVE_RULE_GROUP,
   CALL_VALIDATION_API_SUCCESS,
@@ -28,6 +30,16 @@ export function addRule(parentId) {
     });
 }
 
+export function updateRule(rule) {
+  return dispatch =>
+    dispatch({
+      type: UPDATE_RULE,
+      data: {
+        rule,
+      },
+    });
+}
+
 export function addRuleGroup(parentId) {
   return dispatch =>
     dispatch({
@@ -35,6 +47,16 @@ export function addRuleGroup(parentId) {
       data: {
         parentId,
         rules: { id: uniqueId(), condition: 'and', children: [] },
+      },
+    });
+}
+
+export function updateRuleGroup(ruleGroup) {
+  return dispatch =>
+    dispatch({
+      type: UPDATE_RULE_GROUP,
+      data: {
+        ruleGroup,
       },
     });
 }
@@ -63,6 +85,8 @@ export function testRuleset(data) {
 export const actions = {
   addRule,
   addRuleGroup,
+  updateRule,
+  updateRuleGroup,
   removeRule,
   removeRuleGroup,
   testRuleset,
@@ -86,6 +110,15 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [ruleId]: { ...action.data.rule, parentId },
         },
       };
+    case UPDATE_RULE:
+      const { rule } = action.data;
+      return {
+        ...state,
+        ruleset: {
+          ...state.ruleset,
+          [rule.id]: { rule },
+        },
+      };
     case ADD_RULE_GROUP:
       var parent = state.ruleset[parentId];
 
@@ -100,7 +133,18 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [action.data.rules.id]: { ...action.data.rules },
         },
       };
+    case UPDATE_RULE_GROUP:
+      var { ruleGroup } = action.data;
+
+      return {
+        ...state,
+        ruleset: {
+          ...state.ruleset,
+          [ruleGroup.id]: { ...ruleGroup },
+        },
+      };
     case REMOVE_RULE:
+    case REMOVE_RULE_GROUP:
       let { id } = action.data;
       const newRuleset = omit(state.ruleset, id);
       const newChildren = state.ruleset[parentId].children.filter(
@@ -113,22 +157,6 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [parentId]: {
             ...state.ruleset[parentId],
             children: [...newChildren],
-          },
-        },
-      };
-    case REMOVE_RULE_GROUP:
-      var { id } = action.data;
-      const updatedState = omit(state.ruleset, id);
-      const updatedChildren = state.ruleset[parentId].children.filter(
-        x => x !== id,
-      );
-      return {
-        ...state,
-        ruleset: {
-          ...updatedState,
-          [parentId]: {
-            ...state.ruleset[parentId],
-            children: [...updatedChildren],
           },
         },
       };

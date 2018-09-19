@@ -24,6 +24,13 @@ class RuleGroup extends Component {
     this.props.addRuleGroup(this.props.id);
   };
 
+  updateGroup = (event, data) => {
+    debugger;
+    console.info(
+      `Updating group ${this.props.id} inside group ${this.props.parentId}`,
+    );
+  };
+
   removeGroup = event => {
     console.info(
       `Removing nested group ${this.props.id} inside group ${
@@ -61,6 +68,7 @@ class RuleGroup extends Component {
           defaultValue={condition}
           buttonStyle="solid"
           className="field-container"
+          onChange={this.updateGroup}
         >
           <Radio.Button value="and">And</Radio.Button>
           <Radio.Button value="or">Or</Radio.Button>
