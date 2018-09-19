@@ -1,25 +1,27 @@
-export function extractRoot(rules) {
+function extractRoot(rules) {
   var [_, root] = Object.entries(rules).filter(
     ([_, v]) => v.parentId == null,
   )[0];
   return root;
 }
 
-export function processChild(id, rules) {
-  console.log(`processChild(${id})`);
+// child visitor that returns a new child with id and parentId removed
+function visitChild(child) {
+  const { id, parentId, ...rest } = child;
+  return rest;
+}
 
-  if (!('children' in rules[id])) {
-    return rules[id];
+function processChild(id, rules) {
+  var parent = rules[id];
+  if (!('children' in parent)) {
+    return visitChild(parent);
   }
 
-  var children = rules[id].children;
-  if (children.length) {
-    for (var i = 0; i < children.length; i++) {
-      children[i] = processChild(children[i], rules);
-    }
-    return { [rules[id].condition]: children };
+  var children = parent.children;
+  for (var i = 0; i < children.length; i++) {
+    children[i] = processChild(children[i], rules);
   }
-  return rules[id];
+  return { [parent.condition]: children };
 }
 
 export function transformRuleset(ruleset) {
