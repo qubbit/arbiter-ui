@@ -9,14 +9,14 @@ class Ruleset extends Component {
     return [
       <div className="flex-column">
         <RulesetForm />
-        <JsonRenderer form="rulesetForm" />
+        <JsonRenderer ruleset={this.props.ruleset} />
       </div>,
     ];
   }
 }
 
 const mapStateToProps = state => {
-  return { schema: state.schema };
+  return { schema: state.schema, ruleset: state.ruleset };
 };
 
 export default connect(

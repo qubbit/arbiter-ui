@@ -1,24 +1,18 @@
 import React from 'react';
-import { values as valuesDecorator } from 'redux-form';
 import Code from './Code';
-import Transformer from '../utils/transformer.js';
+import cloneDeep from 'lodash/cloneDeep';
+import { transformRuleset } from 'utils/ruleset';
 
-const JsonRenderer = ({
-  form,
-  format = values => JSON.stringify(values, null, 2),
-}) => {
-  const decorator = valuesDecorator({ form });
-  const component = ({ values }) => {
-    const trasformed = Transformer.transform(values);
-    return (
-      <div className="col">
-        <span>JSON</span>
-        <Code source={format(trasformed)} />
-      </div>
-    );
-  };
-  const Decorated = decorator(component);
-  return <Decorated />;
+const JsonRenderer = ruleset => {
+  var clone = cloneDeep(ruleset);
+  const code = JSON.stringify(transformRuleset(clone.ruleset), null, 2);
+
+  return (
+    <div className="col">
+      <span>JSON</span>
+      <Code source={code} />
+    </div>
+  );
 };
 
 export default JsonRenderer;
