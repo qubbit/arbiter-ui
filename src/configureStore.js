@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { logger } from 'redux-logger';
-import { reducer as reduxFormReducer } from 'redux-form';
 import thunkMiddleware from 'redux-thunk';
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 import { reducers } from './store';
@@ -8,7 +7,6 @@ import { reducers } from './store';
 const buildRootReducer = allReducers => {
   return combineReducers({
     ...allReducers,
-    form: reduxFormReducer,
     routing: routerReducer,
   });
 };
