@@ -30,12 +30,13 @@ export function addRule(parentId) {
     });
 }
 
-export function updateRule(rule) {
+export function updateRule(id, object) {
   return dispatch =>
     dispatch({
       type: UPDATE_RULE,
       data: {
-        rule,
+        id,
+        object,
       },
     });
 }
@@ -51,12 +52,13 @@ export function addRuleGroup(parentId) {
     });
 }
 
-export function updateRuleGroup(ruleGroup) {
+export function updateRuleGroup(id, object) {
   return dispatch =>
     dispatch({
       type: UPDATE_RULE_GROUP,
       data: {
-        ruleGroup,
+        id,
+        object,
       },
     });
 }
@@ -110,15 +112,6 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [ruleId]: { ...action.data.rule, parentId },
         },
       };
-    case UPDATE_RULE:
-      const { rule } = action.data;
-      return {
-        ...state,
-        ruleset: {
-          ...state.ruleset,
-          [rule.id]: { rule },
-        },
-      };
     case ADD_RULE_GROUP:
       var parent = state.ruleset[parentId];
 
@@ -131,16 +124,6 @@ export const reducer = (state = INITIAL_STATE, action) => {
             children: [...parent.children, action.data.rules.id],
           },
           [action.data.rules.id]: { ...action.data.rules },
-        },
-      };
-    case UPDATE_RULE_GROUP:
-      var { ruleGroup } = action.data;
-
-      return {
-        ...state,
-        ruleset: {
-          ...state.ruleset,
-          [ruleGroup.id]: { ...ruleGroup },
         },
       };
     case REMOVE_RULE:
@@ -158,6 +141,16 @@ export const reducer = (state = INITIAL_STATE, action) => {
             ...state.ruleset[parentId],
             children: [...newChildren],
           },
+        },
+      };
+    case UPDATE_RULE_GROUP:
+    case UPDATE_RULE:
+      var { id, object } = action.data;
+      return {
+        ...state,
+        ruleset: {
+          ...state.ruleset,
+          [id]: { ...state.ruleset[id], ...object },
         },
       };
     case 'CALL_VALIDATION_API_SUCCESS':
