@@ -44,12 +44,19 @@ class RuleGroup extends Component {
     return 'condition' in rule;
   }
 
-  renderChild = childId => {
-    const { id, condition } = this.props;
+  renderChild = id => {
+    const { parentId, condition } = this.props;
+    console.log(parentId, id);
     if (condition) {
-      return <ConnectedRuleGroup id={childId} parentId={id} />;
+      return (
+        <ConnectedRuleGroup
+          key={`rule-group-${id}`}
+          id={id}
+          parentId={parentId}
+        />
+      );
     }
-    return <Rule />;
+    return <Rule key={`rule-${id}`} />;
   };
 
   render() {
@@ -106,7 +113,7 @@ class RuleGroup extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return state.ruleset.ruleset[ownProps.id];
+  return state.ruleset.rules[ownProps.id];
 };
 
 const mapDispatchToProps = {

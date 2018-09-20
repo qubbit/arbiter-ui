@@ -15,7 +15,7 @@ import {
 const one = uniqueId();
 
 const INITIAL_STATE = {
-  ruleset: {
+  rules: {
     [one]: {
       id: one,
       parentId: null,
@@ -114,11 +114,11 @@ export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADD_RULE:
     case ADD_RULE_GROUP:
-      var parent = state.ruleset[parentId];
+      var parent = state.rules[parentId];
       return {
         ...state,
-        ruleset: {
-          ...state.ruleset,
+        rules: {
+          ...state.rules,
           [parentId]: {
             ...parent,
             children: [...parent.children, id],
@@ -128,16 +128,14 @@ export const reducer = (state = INITIAL_STATE, action) => {
       };
     case REMOVE_RULE:
     case REMOVE_RULE_GROUP:
-      const newRuleset = omit(state.ruleset, id);
-      const newChildren = state.ruleset[parentId].children.filter(
-        x => x !== id,
-      );
+      const newRuleset = omit(state.rules, id);
+      const newChildren = state.rules[parentId].children.filter(x => x !== id);
       return {
         ...state,
-        ruleset: {
+        rules: {
           ...newRuleset,
           [parentId]: {
-            ...state.ruleset[parentId],
+            ...state.rules[parentId],
             children: [...newChildren],
           },
         },
@@ -147,9 +145,9 @@ export const reducer = (state = INITIAL_STATE, action) => {
       var { object } = action.data;
       return {
         ...state,
-        ruleset: {
-          ...state.ruleset,
-          [id]: { ...state.ruleset[id], ...object },
+        rules: {
+          ...state.rules,
+          [id]: { ...state.rules[id], ...object },
         },
       };
     case CALL_VALIDATION_API_SUCCESS:

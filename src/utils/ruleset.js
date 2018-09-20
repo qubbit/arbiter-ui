@@ -24,11 +24,11 @@ function processChild(id, rules) {
 }
 
 // Transforms ruleset to the format that can be consumed by the arbiter gem
-export function transformRuleset(__ruleset__) {
-  const { actions, ruleset } = __ruleset__;
+export function transformRuleset(ruleset) {
+  const { actions, rules } = ruleset;
 
-  const root = extractRoot(ruleset);
+  const root = extractRoot(rules);
   const acc = { [root.condition]: root.children };
-  processChild(root.id, ruleset);
+  processChild(root.id, rules);
   return acc;
 }
