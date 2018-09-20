@@ -2,6 +2,7 @@
   "name": "arbiter-ui",
   "version": "1.0.0",
   "description": "",
+  "homepage": "https://qubbit.github.io/arbiter-ui",
   "main": "index.js",
   "engines": {
     "node": ">=8.x"
