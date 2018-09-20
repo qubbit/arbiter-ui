@@ -24,15 +24,15 @@ function processChild(id, rules) {
   return { [parent.condition]: children };
 }
 
-export function transformRuleset(ruleset) {
-  const { actions, rules } = ruleset;
+export function transformRuleset(__ruleset__) {
+  const { actions, ruleset } = __ruleset__;
 
-  const root = extractRoot(rules);
+  const root = extractRoot(ruleset);
   const acc = { [root.condition]: root.children };
 
   for (var i = 0; i < root.children.length; i++) {
     var id = root.children[i];
-    root.children[i] = processChild(id, rules);
+    root.children[i] = processChild(id, ruleset);
   }
 
   return acc;
