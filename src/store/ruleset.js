@@ -152,9 +152,9 @@ export const reducer = (state = INITIAL_STATE, action) => {
           [id]: { ...state.ruleset[id], ...object },
         },
       };
-    case 'CALL_VALIDATION_API_SUCCESS':
+    case CALL_VALIDATION_API_SUCCESS:
       return { ...state, validationResult: action.response };
-    case 'CALL_VALIDATION_API_FAILURE':
+    case CALL_VALIDATION_API_FAILURE:
       return { ...state, validationResult: action.error };
     default:
       return state;
