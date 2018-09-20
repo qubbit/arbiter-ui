@@ -12,20 +12,44 @@ import {
   CALL_VALIDATION_API_FAILURE,
 } from '../actions/types.js';
 
-const initialId = uniqueId();
+const one = uniqueId();
 
 const INITIAL_STATE = {
-  ruleset: { [initialId]: { id: initialId, children: [], condition: 'and' } },
+  ruleset: {
+    [one]: {
+      id: one,
+      parentId: null,
+      children: [],
+      condition: 'and',
+    },
+  },
   actions: [],
 };
 
 export function addRule(parentId) {
+  const id = uniqueId();
+
   return dispatch =>
     dispatch({
       type: ADD_RULE,
       data: {
+        id,
         parentId,
-        rule: { id: uniqueId(), fact: null, operator: null, value: null },
+        rule: { id, fact: null, operator: null, value: null },
+      },
+    });
+}
+
+export function addRuleGroup(parentId) {
+  const id = uniqueId();
+
+  return dispatch =>
+    dispatch({
+      type: ADD_RULE_GROUP,
+      data: {
+        id,
+        parentId,
+        rule: { id, condition: 'and', children: [] },
       },
     });
 }
@@ -37,17 +61,6 @@ export function updateRule(id, object) {
       data: {
         id,
         object,
-      },
-    });
-}
-
-export function addRuleGroup(parentId) {
-  return dispatch =>
-    dispatch({
-      type: ADD_RULE_GROUP,
-      data: {
-        parentId,
-        rules: { id: uniqueId(), condition: 'and', children: [] },
       },
     });
 }
@@ -95,40 +108,26 @@ export const actions = {
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
+  const id = action.data && action.data.id;
   const parentId = action.data && action.data.parentId;
 
   switch (action.type) {
     case ADD_RULE:
-      var ruleId = action.data.rule.id;
-      var group = state.ruleset[parentId];
-      return {
-        ...state,
-        ruleset: {
-          ...state.ruleset,
-          [parentId]: {
-            ...group,
-            children: [...state.ruleset[parentId].children, ruleId],
-          },
-          [ruleId]: { ...action.data.rule, parentId },
-        },
-      };
     case ADD_RULE_GROUP:
       var parent = state.ruleset[parentId];
-
       return {
         ...state,
         ruleset: {
           ...state.ruleset,
           [parentId]: {
             ...parent,
-            children: [...parent.children, action.data.rules.id],
+            children: [...parent.children, id],
           },
-          [action.data.rules.id]: { ...action.data.rules },
+          [id]: { ...action.data.rule, parentId },
         },
       };
     case REMOVE_RULE:
     case REMOVE_RULE_GROUP:
-      let { id } = action.data;
       const newRuleset = omit(state.ruleset, id);
       const newChildren = state.ruleset[parentId].children.filter(
         x => x !== id,
@@ -145,7 +144,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
       };
     case UPDATE_RULE_GROUP:
     case UPDATE_RULE:
-      var { id, object } = action.data;
+      var { object } = action.data;
       return {
         ...state,
         ruleset: {
