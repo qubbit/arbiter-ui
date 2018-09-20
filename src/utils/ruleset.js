@@ -1,11 +1,10 @@
+// Extract the root ruleset
 function extractRoot(rules) {
-  var [_, root] = Object.entries(rules).filter(
-    ([_, v]) => v.parentId == null,
-  )[0];
+  var [_, root] = Object.entries(rules).find(([_, v]) => v.parentId == null);
   return root;
 }
 
-// child visitor that returns a new child with id and parentId removed
+// Child visitor that returns a new child with its id and parentId removed
 function visitChild(child) {
   const { id, parentId, ...rest } = child;
   return rest;
@@ -24,16 +23,12 @@ function processChild(id, rules) {
   return { [parent.condition]: children };
 }
 
+// Transforms ruleset to the format that can be consumed by the arbiter gem
 export function transformRuleset(__ruleset__) {
   const { actions, ruleset } = __ruleset__;
 
   const root = extractRoot(ruleset);
   const acc = { [root.condition]: root.children };
-
-  for (var i = 0; i < root.children.length; i++) {
-    var id = root.children[i];
-    root.children[i] = processChild(id, ruleset);
-  }
-
+  processChild(root.id, ruleset);
   return acc;
 }
