@@ -22,8 +22,9 @@ class Rule extends Component {
     this.props.removeRule(this.props.id, this.props.parentId);
   };
 
-  handleFactChange = event => {
-    console.log(event.target);
+  updateRule = (key, value) => {
+    console.log(key, value);
+    this.props.updateRule(this.props.id, { [key]: value });
   };
 
   render() {
@@ -41,12 +42,15 @@ class Rule extends Component {
         id={id}
         style={{ marginLeft: '20px', marginTop: '20px' }}
       >
-        <div className="field-container">
+        <div className="field-container rule__fact">
           <Select
-            name={fact}
+            name="fact"
             defaultValue={fact || facts[0].name}
             style={{ width: 150 }}
             hasFeedback={false}
+            onChange={value => {
+              this.updateRule('fact', value);
+            }}
           >
             {facts.map(f => (
               <Option key={`fact-${f.name}`} value={f.name}>
@@ -55,12 +59,15 @@ class Rule extends Component {
             ))}
           </Select>
         </div>
-        <div className="field-container">
+        <div className="field-container rule__operator">
           <Select
             name="operator"
             defaultValue={operator || operators[0].value}
             style={{ width: 100 }}
             hasFeedback={false}
+            onChange={value => {
+              this.updateRule('operator', value);
+            }}
           >
             {operators.map(o => (
               <Option key={`operator-${o.value}`} value={o.value}>
@@ -69,8 +76,15 @@ class Rule extends Component {
             ))}
           </Select>
         </div>
-        <div className="field-container">
-          <Input placeholder="value" defaultValue={value} />
+        <div className="field-container rule__value">
+          <Input
+            placeholder="value"
+            defaultValue={value}
+            name="value"
+            onPressEnter={e => {
+              this.updateRule('value', e.target.value);
+            }}
+          />
         </div>
         <Button
           className="field-container"
