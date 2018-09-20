@@ -64,29 +64,39 @@ class RuleGroup extends Component {
         id={this.props.id}
         style={{ marginLeft: '20px', marginTop: '20px' }}
       >
-        <Radio.Group
-          defaultValue={condition}
-          buttonStyle="solid"
-          className="field-container"
-          onChange={this.updateGroup}
-        >
-          <Radio.Button value="and">And</Radio.Button>
-          <Radio.Button value="or">Or</Radio.Button>
-        </Radio.Group>
-        <Button icon="plus" onClick={this.addRule} className="field-container">
-          Rule
-        </Button>
-        <Button icon="plus" onClick={this.addGroup} className="field-container">
-          Group
-        </Button>
-        {parentId && (
-          <Button
-            icon="delete"
-            type="danger"
-            onClick={this.removeGroup}
+        <div className="rule-group-controls">
+          <Radio.Group
+            defaultValue={condition}
+            buttonStyle="solid"
             className="field-container"
-          />
-        )}
+            onChange={this.updateGroup}
+          >
+            <Radio.Button value="and">And</Radio.Button>
+            <Radio.Button value="or">Or</Radio.Button>
+          </Radio.Group>
+          <Button
+            icon="plus"
+            onClick={this.addRule}
+            className="field-container"
+          >
+            Rule
+          </Button>
+          <Button
+            icon="plus"
+            onClick={this.addGroup}
+            className="field-container"
+          >
+            Group
+          </Button>
+          {parentId && (
+            <Button
+              icon="delete"
+              type="danger"
+              onClick={this.removeGroup}
+              className="field-container"
+            />
+          )}
+        </div>
         {children.map(this.renderChild)}
       </div>
     );
