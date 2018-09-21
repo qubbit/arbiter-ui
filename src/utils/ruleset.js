@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
+import uniq from 'lodash/uniq';
 
 // Extract the root ruleset
 function extractRoot(rules) {
@@ -34,4 +35,18 @@ export function transformRuleset(ruleset) {
   const acc = { [root.condition]: root.children };
   processChild(root.id, rules);
   return acc;
+}
+
+function facts(rules, id) {
+  var kid = rules[id];
+  if (!kid) return [];
+  if (!kid.children) return kid.fact;
+  return kid.children.reduce((acc, childId) => {
+    return [...acc, facts(rules, childId)];
+  }, []);
+}
+
+export function uniqueFacts(ruleset) {
+  const root = extractRoot(ruleset.rules);
+  return uniq(facts(ruleset.rules, root.id));
 }

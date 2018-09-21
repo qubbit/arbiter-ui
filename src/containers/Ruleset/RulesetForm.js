@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ConnectedRuleGroup from './RuleGroup';
 import { actions } from 'store';
 import { Button } from 'antd';
-import { transformRuleset } from 'utils/ruleset';
+import { uniqueFacts, transformRuleset } from 'utils/ruleset';
 
 class RulesetForm extends Component {
   handleTestRuleset = () => {
@@ -12,12 +12,15 @@ class RulesetForm extends Component {
   };
 
   render() {
-    const { pristine, submitting, reset } = this.props;
+    const { pristine, submitting, reset, ruleset } = this.props;
+    const fff = uniqueFacts(ruleset);
+    console.log(fff);
     return (
       <div className="form-container col">
         <div className="col">
           <ConnectedRuleGroup id={'1'} />
         </div>
+        <div className="col" />
         <div className="col">
           <div className="toolbar toolbar-vertical">
             <Button
