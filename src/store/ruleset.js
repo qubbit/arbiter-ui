@@ -1,11 +1,11 @@
 import uniqueId from 'lodash/uniqueId';
 import {
-  ADD_RULE,
-  ADD_RULE_GROUP,
-  UPDATE_RULE,
-  UPDATE_RULE_GROUP,
-  REMOVE_RULE,
-  REMOVE_RULE_GROUP,
+  RULE_OP_ADD_RULE,
+  RULE_OP_ADD_RULE_GROUP,
+  RULE_OP_UPDATE_RULE,
+  RULE_OP_UPDATE_RULE_GROUP,
+  RULE_OP_REMOVE_RULE,
+  RULE_OP_REMOVE_RULE_GROUP,
   VALIDATE_SUCCESS,
   VALIDATE_FAILURE
 } from '../actions/types.js';
@@ -37,7 +37,6 @@ const decendants = (rules, id) => {
 
 const deleteMany = (object, ids) => {
   object = { ...object };
-  debugger;
   ids.forEach(id => delete object[id]);
   return object;
 };
@@ -47,8 +46,8 @@ const rules = (state, action) => {
   const parentId = action.data && action.data.parentId;
 
   switch (action.type) {
-    case ADD_RULE:
-    case ADD_RULE_GROUP:
+    case RULE_OP_ADD_RULE:
+    case RULE_OP_ADD_RULE_GROUP:
       var parent = state.rules[parentId];
       return {
         ...state.rules,
@@ -58,8 +57,8 @@ const rules = (state, action) => {
         },
         [id]: { ...action.data.rule, parentId }
       };
-    case REMOVE_RULE:
-    case REMOVE_RULE_GROUP:
+    case RULE_OP_REMOVE_RULE:
+    case RULE_OP_REMOVE_RULE_GROUP:
       return {
         ...deleteMany(state.rules, [id, ...decendants(state.rules, id)]),
         [parentId]: {
@@ -67,8 +66,8 @@ const rules = (state, action) => {
           children: state.rules[parentId].children.filter(x => x !== id)
         }
       };
-    case UPDATE_RULE_GROUP:
-    case UPDATE_RULE:
+    case RULE_OP_UPDATE_RULE_GROUP:
+    case RULE_OP_UPDATE_RULE:
       var { object } = action.data;
       return {
         ...state.rules,
@@ -82,7 +81,7 @@ const rules = (state, action) => {
 export const reducer = (state = INITIAL_STATE, action) => {
   const { type } = action;
 
-  if (type.match('RULE')) {
+  if (type.match(/^RULE_OP/)) {
     return {
       ...state,
       rules: rules(state, action)

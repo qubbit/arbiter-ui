@@ -1,12 +1,12 @@
 import api from '../utils/api.js';
 import uniqueId from 'lodash/uniqueId';
 import {
-  ADD_RULE,
-  ADD_RULE_GROUP,
-  UPDATE_RULE,
-  UPDATE_RULE_GROUP,
-  REMOVE_RULE,
-  REMOVE_RULE_GROUP,
+  RULE_OP_ADD_RULE,
+  RULE_OP_ADD_RULE_GROUP,
+  RULE_OP_UPDATE_RULE,
+  RULE_OP_UPDATE_RULE_GROUP,
+  RULE_OP_REMOVE_RULE,
+  RULE_OP_REMOVE_RULE_GROUP,
   VALIDATE_SUCCESS,
   VALIDATE_FAILURE
 } from './types.js';
@@ -16,7 +16,7 @@ export function addRule(parentId) {
 
   return dispatch =>
     dispatch({
-      type: ADD_RULE,
+      type: RULE_OP_ADD_RULE,
       data: {
         id,
         parentId,
@@ -30,7 +30,7 @@ export function addRuleGroup(parentId) {
 
   return dispatch =>
     dispatch({
-      type: ADD_RULE_GROUP,
+      type: RULE_OP_ADD_RULE_GROUP,
       data: {
         id,
         parentId,
@@ -42,7 +42,7 @@ export function addRuleGroup(parentId) {
 export function updateRule(id, object) {
   return dispatch =>
     dispatch({
-      type: UPDATE_RULE,
+      type: RULE_OP_UPDATE_RULE,
       data: {
         id,
         object
@@ -53,7 +53,7 @@ export function updateRule(id, object) {
 export function updateRuleGroup(id, object) {
   return dispatch =>
     dispatch({
-      type: UPDATE_RULE_GROUP,
+      type: RULE_OP_UPDATE_RULE_GROUP,
       data: {
         id,
         object
@@ -62,12 +62,13 @@ export function updateRuleGroup(id, object) {
 }
 
 export function removeRule(id, parentId) {
-  return dispatch => dispatch({ type: REMOVE_RULE, data: { id, parentId } });
+  return dispatch =>
+    dispatch({ type: RULE_OP_REMOVE_RULE, data: { id, parentId } });
 }
 
 export function removeRuleGroup(id, parentId) {
   return dispatch =>
-    dispatch({ type: REMOVE_RULE_GROUP, data: { id, parentId } });
+    dispatch({ type: RULE_OP_REMOVE_RULE_GROUP, data: { id, parentId } });
 }
 
 export function testRuleset(data) {
