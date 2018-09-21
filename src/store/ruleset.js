@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import uniqueId from 'lodash/uniqueId';
 import {
   ADD_RULE,
@@ -26,6 +25,23 @@ const INITIAL_STATE = {
   actions: []
 };
 
+const decendants = (rules, id) => {
+  var kid = rules[id];
+  if (!(kid && kid.children)) return [];
+
+  return kid.children.reduce(
+    (acc, childId) => [...acc, childId, ...decendants(rules, childId)],
+    []
+  );
+};
+
+const deleteMany = (object, ids) => {
+  object = { ...object };
+  debugger;
+  ids.forEach(id => delete object[id]);
+  return object;
+};
+
 const rules = (state, action) => {
   const id = action.data && action.data.id;
   const parentId = action.data && action.data.parentId;
@@ -44,13 +60,11 @@ const rules = (state, action) => {
       };
     case REMOVE_RULE:
     case REMOVE_RULE_GROUP:
-      const newRuleset = omit(state.rules, id);
-      const newChildren = state.rules[parentId].children.filter(x => x !== id);
       return {
-        ...newRuleset,
+        ...deleteMany(state.rules, [id, ...decendants(state.rules, id)]),
         [parentId]: {
           ...state.rules[parentId],
-          children: [...newChildren]
+          children: state.rules[parentId].children.filter(x => x !== id)
         }
       };
     case UPDATE_RULE_GROUP:
