@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button, Select } from 'antd';
+import { Icon, Input, Button, Select } from 'antd';
 import { actions } from 'store';
 
 const { Option } = Select;
@@ -8,31 +8,34 @@ const { Option } = Select;
 class Rule extends Component {
   static get defaultProps() {
     return {
-      id: null,
-      parentId: null,
-      fact: null,
-      operator: null,
-      value: null,
-      schema: null
+      rule: {
+        id: null,
+        parentId: null,
+        fact: null,
+        operator: null,
+        value: null,
+        schema: null
+      },
+      test: null
     };
   }
 
   removeRule = event => {
-    console.info(`Removing rule ${this.props.id} from ${this.props.parentId}`);
-    this.props.removeRule(this.props.id, this.props.parentId);
+    console.info(
+      `Removing rule ${this.props.rule.id} from ${this.props.rule.parentId}`
+    );
+    this.props.removeRule(this.props.rule.id, this.props.rule.parentId);
   };
 
   updateRule = (key, value) => {
     console.log(key, value);
-    this.props.updateRule(this.props.id, { [key]: value });
+    this.props.updateRule(this.props.rule.id, { [key]: value });
   };
 
   render() {
     const {
-      id,
-      fact,
-      operator,
-      value,
+      rule: { id, fact, operator, value },
+      test,
       schema: { operators, facts }
     } = this.props;
 
@@ -93,6 +96,24 @@ class Rule extends Component {
           icon="delete"
           onClick={this.removeRule}
         />
+        {test &&
+          test.success && (
+            <Icon
+              style={{ marginRight: '20px' }}
+              type="check-circle"
+              theme="twoTone"
+              twoToneColor="#52c41a"
+            />
+          )}
+        {test &&
+          !test.success && (
+            <Icon
+              style={{ marginRight: '20px' }}
+              type="exclamation-circle"
+              theme="twoTone"
+              twoToneColor="#f44336"
+            />
+          )}
       </div>
     );
   }

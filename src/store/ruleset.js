@@ -22,7 +22,7 @@ const INITIAL_STATE = {
       condition: 'all'
     }
   },
-  test: {},
+  test: { success: null, rules: {} },
   actions: []
 };
 
@@ -75,8 +75,10 @@ export const reducer = (state = INITIAL_STATE, action) => {
     };
   }
 
-  if ([VALIDATE_SUCCESS, VALIDATE_FAILURE].includes(type)) {
+  if (type === VALIDATE_SUCCESS) {
     return { ...state, test: action.response };
+  } else if (type === VALIDATE_FAILURE) {
+    return { ...state };
   }
 
   return state;

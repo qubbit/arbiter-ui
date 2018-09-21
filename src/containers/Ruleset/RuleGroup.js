@@ -7,45 +7,50 @@ import Rule from './Rule';
 class RuleGroup extends Component {
   static get defaultProps() {
     return {
-      id: null,
-      parentId: null,
-      children: [],
-      condition: 'all'
+      rule: {
+        id: null,
+        parentId: null,
+        children: [],
+        condition: 'all'
+      }
     };
   }
 
   addRule = event => {
-    console.info(`Adding a rule to group ${this.props.id}`);
-    this.props.addRule(this.props.id);
+    console.info(`Adding a rule to group ${this.props.rule.id}`);
+    this.props.addRule(this.props.rule.id);
   };
 
   addGroup = event => {
-    console.info(`Adding a nested group inside group ${this.props.id}`);
-    this.props.addRuleGroup(this.props.id);
+    console.info(`Adding a nested group inside group ${this.props.rule.id}`);
+    this.props.addRuleGroup(this.props.rule.id);
   };
 
   updateGroup = (key, value) => {
     console.info(
-      `Updating group ${this.props.id} inside group ${this.props.parentId}`
+      `Updating group ${this.props.rule.id} inside group ${
+        this.props.rule.parentId
+      }`
     );
-    this.props.updateRuleGroup(this.props.id, { [key]: value });
+    this.props.updateRuleGroup(this.props.rule.id, { [key]: value });
   };
 
   removeGroup = event => {
     console.info(
-      `Removing nested group ${this.props.id} inside group ${
-        this.props.parentId
+      `Removing nested group ${this.props.rule.id} inside group ${
+        this.props.rule.parentId
       }`
     );
-    this.props.removeRuleGroup(this.props.id, this.props.parentId);
+    this.props.removeRuleGroup(this.props.rule.id, this.props.rule.parentId);
   };
 
-  isRuleGroup(rule) {
-    return 'condition' in rule;
+  isRule(rule) {
+    return 'operator' in rule;
   }
 
   renderChild = id => {
-    const { parentId, condition } = this.props;
+    const { rule } = this.props;
+    const { parentId, condition } = rule;
 
     if (condition) {
       return (
@@ -60,15 +65,17 @@ class RuleGroup extends Component {
   };
 
   render() {
-    const { parentId, condition, children } = this.props;
+    const { rule, test } = this.props;
+    const { id, parentId, condition, children } = rule;
 
-    if ('operator' in this.props) {
-      return <Rule {...this.props} />;
+    if (this.isRule(rule)) {
+      return <Rule rule={rule} test={test} />;
     }
+
     return (
       <div
         className="rule-group"
-        id={this.props.id}
+        id={id}
         style={{ marginLeft: '20px', marginTop: '20px' }}
       >
         <div className="rule-group-controls">
@@ -113,7 +120,10 @@ class RuleGroup extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return state.ruleset.rules[ownProps.id];
+  return {
+    rule: state.ruleset.rules[ownProps.id],
+    test: state.ruleset.test.rules[ownProps.id]
+  };
 };
 
 const mapDispatchToProps = {
