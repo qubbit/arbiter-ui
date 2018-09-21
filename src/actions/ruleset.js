@@ -7,8 +7,8 @@ import {
   RULE_OP_UPDATE_RULE_GROUP,
   RULE_OP_REMOVE_RULE,
   RULE_OP_REMOVE_RULE_GROUP,
-  VALIDATE_SUCCESS,
-  VALIDATE_FAILURE
+  TEST_RULESET_SUCCESS,
+  TEST_RULESET_FAILURE
 } from './types.js';
 
 export function addRule(parentId) {
@@ -76,10 +76,10 @@ export function testRuleset(data) {
     api
       .post('/validate_rules', data)
       .then(response => {
-        dispatch({ type: VALIDATE_SUCCESS, response });
+        dispatch({ type: TEST_RULESET_SUCCESS, response });
       })
       .catch(error => {
-        dispatch({ type: VALIDATE_FAILURE, error });
+        dispatch({ type: TEST_RULESET_FAILURE, error });
       });
 }
 
