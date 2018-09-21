@@ -6,7 +6,7 @@ const prettify = markdown =>
   markdown.replace(/```(?:javascript|jsx?)([\s\S]+?)```/g, (match, code) => {
     return `<pre class="language-js"><code class="language-js">${Prism.highlight(
       code,
-      Prism.languages.js,
+      Prism.languages.js
     )}</code></pre>`;
   });
 
@@ -20,7 +20,7 @@ const Markdown = ({ content }) => {
   return (
     <div
       dangerouslySetInnerHTML={{
-        __html: marked(prettify(content), { renderer }),
+        __html: marked(prettify(content), { renderer })
       }}
     />
   );

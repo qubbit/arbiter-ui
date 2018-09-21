@@ -25,12 +25,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   ...actions.schema,
-  ...actions.ruleset,
+  ...actions.ruleset
 };
 
 RulesetForm = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(RulesetForm);
 
 export default RulesetForm;

@@ -13,7 +13,7 @@ class Rule extends Component {
       fact: null,
       operator: null,
       value: null,
-      schema: null,
+      schema: null
     };
   }
 
@@ -33,7 +33,7 @@ class Rule extends Component {
       fact,
       operator,
       value,
-      schema: { operators, facts },
+      schema: { operators, facts }
     } = this.props;
 
     return (
@@ -104,12 +104,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   ...actions.schema,
-  ...actions.ruleset,
+  ...actions.ruleset
 };
 
 Rule = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Rule);
 
 export default Rule;

@@ -10,7 +10,7 @@ class Ruleset extends Component {
       <div className="flex-column">
         <RulesetForm />
         <JsonRenderer ruleset={this.props.ruleset} />
-      </div>,
+      </div>
     ];
   }
 }
@@ -21,5 +21,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(Ruleset);

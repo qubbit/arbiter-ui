@@ -34,7 +34,7 @@ export function addRuleGroup(parentId) {
       data: {
         id,
         parentId,
-        rule: { id, condition: 'and', children: [] }
+        rule: { id, condition: 'all', children: [] }
       }
     });
 }

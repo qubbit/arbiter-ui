@@ -3,7 +3,7 @@
     "1": {
       "id": "1",
       "children": ["2", "3", "4"],
-      "condition": "and",
+      "condition": "all",
       "parentId": null
     },
     "2": {
@@ -22,7 +22,7 @@
     },
     "4": {
       "id": "4",
-      "condition": "or",
+      "condition": "any",
       "children": ["5", "6"],
       "parentId": 1
     },

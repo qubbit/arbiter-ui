@@ -7,7 +7,7 @@ const Code = ({ source, language }) => (
 );
 
 Code.defaultProps = {
-  language: 'js',
+  language: 'js'
 };
 
 export default Code;

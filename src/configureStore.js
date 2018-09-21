@@ -7,7 +7,7 @@ import { reducers } from './store';
 const buildRootReducer = allReducers => {
   return combineReducers({
     ...allReducers,
-    routing: routerReducer,
+    routing: routerReducer
   });
 };
 
@@ -16,7 +16,7 @@ export default history => {
     buildRootReducer(reducers),
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(thunkMiddleware, logger, routerMiddleware(history)),
+    applyMiddleware(thunkMiddleware, logger, routerMiddleware(history))
   );
   return store;
 };

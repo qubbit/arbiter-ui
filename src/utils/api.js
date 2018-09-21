@@ -3,7 +3,7 @@ const API_URL = 'http://localhost:3000';
 function headers() {
   return {
     Accept: 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   };
 }
 
@@ -27,7 +27,7 @@ export default {
   fetch(path, params = {}) {
     return fetch(`${API_URL}${path}${queryString(params)}`, {
       method: 'GET',
-      headers: headers(),
+      headers: headers()
     }).then(parseResponse);
   },
 
@@ -36,7 +36,7 @@ export default {
     return fetch(`${API_URL}${path}`, {
       method: 'POST',
       headers: headers(),
-      body,
+      body
     }).then(parseResponse);
   },
 
@@ -46,14 +46,14 @@ export default {
     return fetch(`${API_URL}${path}`, {
       method: 'PATCH',
       headers: headers(),
-      body,
+      body
     }).then(parseResponse);
   },
 
   delete(path) {
     return fetch(`${API_URL}${path}`, {
       method: 'DELETE',
-      headers: headers(),
+      headers: headers()
     }).then(parseResponse);
-  },
+  }
 };

@@ -10,7 +10,7 @@ class RuleGroup extends Component {
       id: null,
       parentId: null,
       children: [],
-      condition: 'and',
+      condition: 'all'
     };
   }
 
@@ -26,7 +26,7 @@ class RuleGroup extends Component {
 
   updateGroup = (key, value) => {
     console.info(
-      `Updating group ${this.props.id} inside group ${this.props.parentId}`,
+      `Updating group ${this.props.id} inside group ${this.props.parentId}`
     );
     this.props.updateRuleGroup(this.props.id, { [key]: value });
   };
@@ -35,7 +35,7 @@ class RuleGroup extends Component {
     console.info(
       `Removing nested group ${this.props.id} inside group ${
         this.props.parentId
-      }`,
+      }`
     );
     this.props.removeRuleGroup(this.props.id, this.props.parentId);
   };
@@ -80,8 +80,8 @@ class RuleGroup extends Component {
               this.updateGroup('condition', e.target.value);
             }}
           >
-            <Radio.Button value="and">And</Radio.Button>
-            <Radio.Button value="or">Or</Radio.Button>
+            <Radio.Button value="all">All</Radio.Button>
+            <Radio.Button value="any">Any</Radio.Button>
           </Radio.Group>
           <Button
             icon="plus"
@@ -118,12 +118,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   ...actions.schema,
-  ...actions.ruleset,
+  ...actions.ruleset
 };
 
 const ConnectedRuleGroup = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(RuleGroup);
 
 export default ConnectedRuleGroup;

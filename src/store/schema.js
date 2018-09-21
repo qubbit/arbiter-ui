@@ -14,7 +14,7 @@ const initialState = {
     { label: '<', value: 'lt' },
     { label: '\u2264', value: 'lte' },
     { label: '>', value: 'gt' },
-    { label: '\u2265', value: 'gte' },
+    { label: '\u2265', value: 'gte' }
   ],
   facts: [
     {
@@ -22,23 +22,23 @@ const initialState = {
       label: 'EPA Type',
       type: 'string',
       allowMultiple: true,
-      required: true,
+      required: true
     },
     {
       name: 'reason_code',
       label: 'Reason Code',
       type: 'string',
-      allowMultiple: true,
+      allowMultiple: true
     },
-    { name: 'note', label: 'PA Note', type: 'string', allowMultiple: false },
+    { name: 'note', label: 'PA Note', type: 'string', allowMultiple: false }
   ],
   actions: {
     convert_to_fax: {
       label: 'Convert to fax',
-      params: [{ name: 'message', type: 'string' }],
+      params: [{ name: 'message', type: 'string' }]
     },
-    fail_touch: { label: 'Add a fail touch', params: [] },
-  },
+    fail_touch: { label: 'Add a fail touch', params: [] }
+  }
 };
 
 export const actions = {};

@@ -1,6 +1,6 @@
 {
   "rules": {
-    "1": { "id": "1", "children": ["2", "3", "4"], "condition": "and" },
+    "1": { "id": "1", "children": ["2", "3", "4"], "condition": "all" },
     "2": {
       "id": "2",
       "fact": null,
@@ -17,7 +17,7 @@
     },
     "4": {
       "id": "4",
-      "condition": "and",
+      "condition": "all",
       "children": ["5", "6", "7", "8", "9"]
     },
     "5": {
@@ -41,8 +41,8 @@
       "value": null,
       "parentId": "4"
     },
-    "8": { "id": "8", "condition": "and", "children": ["10", "12"] },
-    "9": { "id": "9", "condition": "and", "children": ["11", "13", "15"] },
+    "8": { "id": "8", "condition": "all", "children": ["10", "12"] },
+    "9": { "id": "9", "condition": "all", "children": ["11", "13", "15"] },
     "10": {
       "id": "10",
       "fact": null,
@@ -71,7 +71,7 @@
       "value": null,
       "parentId": "9"
     },
-    "15": { "id": "15", "condition": "and", "children": ["16", "17", "20"] },
+    "15": { "id": "15", "condition": "all", "children": ["16", "17", "20"] },
     "16": {
       "id": "16",
       "fact": null,
@@ -86,8 +86,8 @@
       "value": null,
       "parentId": "15"
     },
-    "19": { "id": "19", "condition": "and", "children": [] },
-    "20": { "id": "20", "condition": "and", "children": ["21", "22", "23"] },
+    "19": { "id": "19", "condition": "all", "children": [] },
+    "20": { "id": "20", "condition": "all", "children": ["21", "22", "23"] },
     "21": {
       "id": "21",
       "fact": null,
@@ -104,7 +104,7 @@
     },
     "23": {
       "id": "23",
-      "condition": "and",
+      "condition": "all",
       "children": ["24", "25", "26", "27"]
     },
     "24": {

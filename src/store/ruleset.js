@@ -19,7 +19,7 @@ const INITIAL_STATE = {
       id: one,
       parentId: null,
       children: [],
-      condition: 'and'
+      condition: 'all'
     }
   },
   test: {
