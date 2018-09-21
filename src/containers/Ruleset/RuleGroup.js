@@ -73,11 +73,7 @@ class RuleGroup extends Component {
     }
 
     return (
-      <div
-        className="rule-group"
-        id={id}
-        style={{ marginLeft: '20px', marginTop: '20px' }}
-      >
+      <div className="rule-group" id={id}>
         <div className="rule-group-controls">
           <Radio.Group
             defaultValue={condition}

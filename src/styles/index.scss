@@ -31,8 +31,7 @@ body {
 
 .toolbar {
   button {
-    margin-right: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
 }
 
@@ -66,4 +65,9 @@ pre[class*='language-'] {
 
 .ant-timeline-item {
   padding: 0;
+}
+
+.rule-group:not(:first-child), .rule {
+  margin-left: 20px;
+  margin-top: 20px;
 }

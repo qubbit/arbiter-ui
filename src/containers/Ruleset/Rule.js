@@ -40,11 +40,7 @@ class Rule extends Component {
     } = this.props;
 
     return (
-      <div
-        className="rule"
-        id={id}
-        style={{ marginLeft: '20px', marginTop: '20px' }}
-      >
+      <div className="rule" id={id}>
         <div className="field-container rule__fact">
           <Select
             name="fact"

@@ -40,9 +40,9 @@ export function transformRuleset(ruleset) {
 function facts(rules, id) {
   var kid = rules[id];
   if (!kid) return [];
-  if (!kid.children) return kid.fact;
+  if (!kid.children) return [kid.fact];
   return kid.children.reduce((acc, childId) => {
-    return [...acc, facts(rules, childId)];
+    return [...acc, ...facts(rules, childId)];
   }, []);
 }
 
