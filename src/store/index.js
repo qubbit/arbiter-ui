@@ -1,12 +1,13 @@
 import * as schema from './schema';
-import * as ruleset from './ruleset';
+import { reducer } from './ruleset';
+import action from '../actions/ruleset.js';
 
 export const reducers = {
   schema: schema.reducer,
-  ruleset: ruleset.reducer,
+  ruleset: reducer
 };
 
 export const actions = {
   schema: schema.actions,
-  ruleset: ruleset.actions,
+  ruleset: action
 };

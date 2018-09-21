@@ -1,6 +1,6 @@
 // Extract the root ruleset
 function extractRoot(rules) {
-  var [_, root] = Object.entries(rules).find(([_, v]) => v.parentId == null);
+  var [, root] = Object.entries(rules).find(([_, v]) => v.parentId == null);
   return root;
 }
 
@@ -25,7 +25,7 @@ function processChild(id, rules) {
 
 // Transforms ruleset to the format that can be consumed by the arbiter gem
 export function transformRuleset(ruleset) {
-  const { actions, rules } = ruleset;
+  const { rules } = ruleset;
 
   const root = extractRoot(rules);
   const acc = { [root.condition]: root.children };
