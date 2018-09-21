@@ -1,11 +1,16 @@
 import React from 'react';
 import Code from './Code';
-import cloneDeep from 'lodash/cloneDeep';
 import { transformRuleset } from 'utils/ruleset';
 
-const JsonRenderer = ruleset => {
-  var clone = cloneDeep(ruleset);
-  const code = JSON.stringify(transformRuleset(clone.ruleset), null, 2);
+const JsonRenderer = props => {
+  const { ruleset, excludedKeys } = props;
+
+  function replacer(key, value) {
+    if (excludedKeys.includes(key)) return undefined;
+    return value;
+  }
+
+  const code = JSON.stringify(transformRuleset(ruleset), replacer, 2);
 
   return (
     <div className="col">

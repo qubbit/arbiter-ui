@@ -9,7 +9,10 @@ class Ruleset extends Component {
     return [
       <div className="flex-column">
         <RulesetForm />
-        <JsonRenderer ruleset={this.props.ruleset} />
+        <JsonRenderer
+          ruleset={this.props.ruleset}
+          excludedKeys={this.props.schema.keysExcludedFromPreview}
+        />
       </div>
     ];
   }

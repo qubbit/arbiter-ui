@@ -5,6 +5,7 @@
 const initialState = {
   name: 'Response Modifier',
   config: { findBy: 'epa_type' },
+  keysExcludedFromPreview: ['id', 'parentId'],
   operators: [
     { label: 'in', value: 'in' },
     { label: 'not in', value: 'not_in' },

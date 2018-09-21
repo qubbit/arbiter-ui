@@ -46,7 +46,7 @@ class RuleGroup extends Component {
 
   renderChild = id => {
     const { parentId, condition } = this.props;
-    console.log(parentId, id);
+
     if (condition) {
       return (
         <ConnectedRuleGroup
