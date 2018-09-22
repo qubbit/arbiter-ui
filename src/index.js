@@ -12,7 +12,9 @@ const history = createBrowserHistory();
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>{routes}</ConnectedRouter>
+    <ConnectedRouter basename={process.env.PUBLIC_URL} history={history}>
+      {routes}
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );
