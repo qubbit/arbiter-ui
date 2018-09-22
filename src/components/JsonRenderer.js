@@ -1,6 +1,7 @@
 import React from 'react';
 import Code from './Code';
 import { transformRuleset } from 'utils/ruleset';
+import { Icon } from 'antd';
 
 const JsonRenderer = props => {
   const { ruleset, excludedKeys } = props;
@@ -14,7 +15,9 @@ const JsonRenderer = props => {
 
   return (
     <div className="col">
-      <span>JSON</span>
+      <div className="ui-area-header">
+        <Icon type="code" theme="twoTone" twoToneColor="#fd558d" /> JSON
+      </div>
       <Code source={code} />
     </div>
   );

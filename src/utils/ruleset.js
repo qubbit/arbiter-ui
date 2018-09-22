@@ -12,10 +12,20 @@ function visitChild(child, callback) {
   return child;
 }
 
+function formatMultipleValues(rule) {
+  if (['in', 'not_in'].includes(rule.operator)) {
+    const value = rule.value;
+    rule.value = value && value.split(',').map(v => v.trim());
+    return rule;
+  } else {
+    return rule;
+  }
+}
+
 function processChild(id, rules) {
   var parent = rules[id];
   if (!('children' in parent)) {
-    return visitChild(parent);
+    return visitChild(parent, formatMultipleValues);
   }
 
   var children = parent.children;
@@ -46,7 +56,8 @@ function facts(rules, id) {
   }, []);
 }
 
+// List of unique facts filtering any falsy elements
 export function uniqueFacts(ruleset) {
   const root = extractRoot(ruleset.rules);
-  return uniq(facts(ruleset.rules, root.id));
+  return uniq(facts(ruleset.rules, root.id)).filter(Boolean);
 }
