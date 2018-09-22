@@ -15,7 +15,8 @@
     "precommit": "lint-staged",
     "start": "cross-env HOST=localhost PORT=1234 node scripts/start.js",
     "build": "node scripts/build.js && rm -rf docs && mv build docs",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "analyze": "source-map-explorer docs/static/js/main.*"
   },
   "author": "qubbit",
   "license": "MIT",
@@ -90,6 +91,7 @@
     "react-dev-utils": "^4.2.1",
     "redux-logger": "^3.0.6",
     "sass-loader": "^6.0.6",
+    "source-map-explorer": "^1.6.0",
     "style-loader": "^0.19.0",
     "stylelint": "^8.3.1",
     "sw-precache-webpack-plugin": "0.11.4",
