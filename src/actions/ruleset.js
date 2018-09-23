@@ -1,5 +1,6 @@
 import api from '../utils/api.js';
 import uniqueId from 'lodash/uniqueId';
+import { OPERATORS, FACTS } from '../store/schema.js';
 import {
   RULE_OP_ADD_RULE,
   RULE_OP_ADD_RULE_GROUP,
@@ -20,7 +21,12 @@ export function addRule(parentId) {
       data: {
         id,
         parentId,
-        rule: { id, fact: null, operator: null, value: null }
+        rule: {
+          id,
+          fact: FACTS[0].name,
+          operator: OPERATORS[0].value,
+          value: ''
+        }
       }
     });
 }
