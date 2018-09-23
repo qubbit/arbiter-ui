@@ -68,8 +68,39 @@ class RulesetTest extends Component {
               )}
               {facts.map(this.renderFact)}
             </Form>
+            {this.props.ruleset.test.success && (
+              <div>
+                <Alert
+                  message="Success"
+                  description="Rule tested successfully against given data"
+                  type="success"
+                  showIcon
+                />
+              </div>
+            )}
+            {this.props.ruleset.test.success === false && (
+              <div>
+                <Alert
+                  message="Fail"
+                  description="Rule didn't test successfully against given data"
+                  type="warning"
+                  showIcon
+                />
+              </div>
+            )}
+            {this.props.ruleset.test.success === null &&
+              this.props.ruleset.test.response && (
+                <div>
+                  <Alert
+                    message="Rule could not be validated, server said:"
+                    description={this.props.ruleset.test.response}
+                    type="error"
+                    showIcon
+                  />
+                </div>
+              )}
           </Col>
-          <Col span={12}>
+          <Col span={12} className="toolbar flex-column">
             <Button
               style={{ width: '200px' }}
               type="secondary"

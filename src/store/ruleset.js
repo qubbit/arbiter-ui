@@ -91,7 +91,20 @@ export const reducer = (state = INITIAL_STATE, action) => {
   if (type === TEST_RULESET_SUCCESS) {
     return { ...state, test: action.response };
   } else if (type === TEST_RULESET_FAILURE) {
-    return { ...state };
+    const errorSlice = (({ error, exception, status }) => ({
+      error,
+      exception,
+      status
+    }))(action.error);
+
+    return {
+      ...state,
+      test: {
+        success: null,
+        rules: [],
+        response: JSON.stringify(errorSlice, null, 2)
+      }
+    };
   }
 
   return state;
