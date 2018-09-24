@@ -27,6 +27,15 @@ export const FACTS = [
   { name: 'note', label: 'PA Note', type: 'string', allowMultiple: false }
 ];
 
+// These are the list of available actions for this rule engine
+export const ACTIONS = {
+  convert_to_fax: {
+    label: 'Convert to fax',
+    params: [{ name: 'message', type: 'string' }]
+  },
+  fail_touch: { label: 'Add a fail touch', params: [] }
+};
+
 // A ruleset can be stored in a database, how do we want to key that ruleset?
 // For this purpose we will choose one of the facts
 
@@ -37,13 +46,7 @@ const initialState = {
   keysExcludedFromPreview: ['id', 'parentId'],
   operators: [...OPERATORS],
   facts: [...FACTS],
-  actions: {
-    convert_to_fax: {
-      label: 'Convert to fax',
-      params: [{ name: 'message', type: 'string' }]
-    },
-    fail_touch: { label: 'Add a fail touch', params: [] }
-  }
+  actions: { ...ACTIONS }
 };
 
 export const actions = {};

@@ -6,6 +6,9 @@ import {
   RULE_OP_UPDATE_RULE_GROUP,
   RULE_OP_REMOVE_RULE,
   RULE_OP_REMOVE_RULE_GROUP,
+  ADD_ACTION,
+  UPDATE_ACTION,
+  REMOVE_ACTION,
   TEST_RULESET_SUCCESS,
   TEST_RULESET_FAILURE
 } from '../actions/types.js';
@@ -85,6 +88,26 @@ export const reducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       rules: rules(state, action)
+    };
+  }
+
+  if ([ADD_ACTION, UPDATE_ACTION].includes(type)) {
+    return {
+      ...state,
+      actions: {
+        ...state.actions,
+        [action.data.name]: { ...action.data.details }
+      }
+    };
+  }
+
+  if (type === REMOVE_ACTION) {
+    return {
+      ...state,
+      actions: {
+        ...state.actions,
+        [action.data.name]: { ...action.data.details }
+      }
     };
   }
 

@@ -1,6 +1,6 @@
 import api from '../utils/api.js';
 import uniqueId from 'lodash/uniqueId';
-import { OPERATORS, FACTS } from '../store/schema.js';
+import { OPERATORS, FACTS, ACTIONS } from '../store/schema.js';
 import {
   RULE_OP_ADD_RULE,
   RULE_OP_ADD_RULE_GROUP,
@@ -8,6 +8,9 @@ import {
   RULE_OP_UPDATE_RULE_GROUP,
   RULE_OP_REMOVE_RULE,
   RULE_OP_REMOVE_RULE_GROUP,
+  ADD_ACTION,
+  UPDATE_ACTION,
+  REMOVE_ACTION,
   TEST_RULESET_SUCCESS,
   TEST_RULESET_FAILURE
 } from './types.js';
@@ -77,6 +80,30 @@ export function removeRuleGroup(id, parentId) {
     dispatch({ type: RULE_OP_REMOVE_RULE_GROUP, data: { id, parentId } });
 }
 
+export function addAction(name) {
+  return dispatch =>
+    dispatch({
+      type: ADD_ACTION,
+      data: { name, details: ACTIONS[name] }
+    });
+}
+
+export function updateAction(action) {
+  return dispatch =>
+    dispatch({
+      type: UPDATE_ACTION,
+      data: { action }
+    });
+}
+
+export function removeAction(action) {
+  return dispatch =>
+    dispatch({
+      type: REMOVE_ACTION,
+      data: { action }
+    });
+}
+
 export function testRuleset(data) {
   return dispatch =>
     api
@@ -96,5 +123,8 @@ export default {
   updateRuleGroup,
   removeRule,
   removeRuleGroup,
+  addAction,
+  updateAction,
+  removeAction,
   testRuleset
 };
