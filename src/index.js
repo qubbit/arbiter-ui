@@ -12,7 +12,7 @@ const history = createBrowserHistory();
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter basename={process.env.PUBLIC_URL} history={history}>
+    <ConnectedRouter basename={'/arbiter-ui'} history={history}>
       {routes}
     </ConnectedRouter>
   </Provider>,
