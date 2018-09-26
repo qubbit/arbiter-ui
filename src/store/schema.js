@@ -33,7 +33,15 @@ export const ACTIONS = {
     label: 'Convert to fax',
     params: [{ name: 'message', type: 'string' }]
   },
-  fail_touch: { label: 'Add a fail touch', params: [] }
+  close_pa: { label: 'Close PA with a fail touch', params: [] },
+  set_user_retryable: {
+    label: 'Make PA user-retryable',
+    params: [{ name: 'message', type: 'string' }]
+  },
+  augment_pa_note: {
+    label: 'Augment PA Note',
+    params: [{ name: 'message', type: 'string' }]
+  }
 };
 
 // A ruleset can be stored in a database, how do we want to key that ruleset?

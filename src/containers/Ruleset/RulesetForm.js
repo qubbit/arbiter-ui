@@ -33,8 +33,6 @@ class RulesetForm extends Component {
   };
 
   render() {
-    const { pristine, submitting, reset, ruleset } = this.props;
-
     return (
       <div className="flex-row col">
         <div className="ruleset-container col">

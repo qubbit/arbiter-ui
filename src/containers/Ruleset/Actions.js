@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'store';
-import { Icon, Input, Button, Select } from 'antd';
+import { Timeline, Icon, Input, Button, Select } from 'antd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+const { Item } = Timeline;
 const { Option } = Select;
 
 class Actions extends Component {
@@ -14,23 +16,51 @@ class Actions extends Component {
     };
   }
 
+  getListStyle = isDraggingOver => ({
+    padding: 8
+  });
+
+  getItemStyle = (isDragging, draggableStyle) => ({
+    userSelect: 'none',
+    paddingLeft: '10px',
+    background: isDragging ? 'lightgreen' : 'white',
+    ...draggableStyle
+  });
+
+  onDragEnd = result => {
+    if (!result.destination) {
+      return;
+    }
+
+    const newIndex = result.destination.index;
+    const oldIndex = result.source.index;
+
+    if (newIndex === oldIndex) return;
+
+    this.props.reorderActions(oldIndex, newIndex);
+  };
+
   selectAction = action => {
     this.setState({ selectedAction: action });
   };
 
   addAction = e => {
+    if (
+      this.props.ruleset.actions.find(a => a.name === this.state.selectedAction)
+    ) {
+      return;
+    }
     this.props.addAction(this.state.selectedAction);
   };
 
-  removeAction = e => {
-    this.props.removeAction(1);
+  removeAction = name => {
+    this.props.removeAction(name);
   };
 
   render() {
     const availableActions = this.props.schema.actions;
     const actionNames = Object.keys(availableActions);
     const rulesetActions = this.props.ruleset.actions;
-    // debugger;
 
     return (
       <div className="col">
@@ -43,7 +73,7 @@ class Actions extends Component {
             <Select
               name="action"
               defaultValue={actionNames[0]}
-              style={{ width: 150 }}
+              style={{ width: 250 }}
               hasFeedback={false}
               onChange={this.selectAction}
             >
@@ -63,31 +93,70 @@ class Actions extends Component {
             Action
           </Button>
         </div>
-        {Object.keys(rulesetActions).map(a => (
-          <div key={`action-${a}`} className="action">
-            <div className="action-name">
-              <span>
-                <strong>{a}</strong>
-              </span>
-              <span>
-                <Button
-                  className="field-container"
-                  type="danger"
-                  title="Remove action"
-                  icon="delete"
-                  onClick={this.removeAction}
-                />
-              </span>
-            </div>
-            {rulesetActions[a].params.map(param => {
-              return (
-                <div key={`action-${a}-param-${param.name}`}>
-                  <Input addonBefore={param.name} style={{ width: '400px' }} />
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={this.getListStyle(snapshot.isDraggingOver)}
+              >
+                <div className="actions">
+                  <Timeline>
+                    {rulesetActions.map((a, index) => (
+                      <Draggable
+                        key={`draggable-action-${a.name}`}
+                        draggableId={a.name}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <Item>
+                            <div
+                              key={`action-${a.name}`}
+                              className="action"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={this.getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                            >
+                              <div className="action-name">
+                                <span>
+                                  <strong>{a.name}</strong>
+                                </span>
+                                <span>
+                                  <Button
+                                    className="field-container"
+                                    type="danger"
+                                    title="Remove action"
+                                    icon="delete"
+                                    onClick={() => {
+                                      this.removeAction(a.name);
+                                    }}
+                                  />
+                                </span>
+                              </div>
+                              {rulesetActions[index].params.map(param => {
+                                return (
+                                  <div
+                                    key={`action-${a.name}-param-${param.name}`}
+                                  >
+                                    <Input addonBefore={param.name} />
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </Item>
+                        )}
+                      </Draggable>
+                    ))}
+                  </Timeline>
                 </div>
-              );
-            })}
-          </div>
-        ))}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
     );
   }

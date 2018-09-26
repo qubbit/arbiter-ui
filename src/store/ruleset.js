@@ -9,6 +9,7 @@ import {
   ADD_ACTION,
   UPDATE_ACTION,
   REMOVE_ACTION,
+  REORDER_ACTIONS,
   TEST_RULESET_SUCCESS,
   TEST_RULESET_FAILURE
 } from '../actions/types.js';
@@ -94,20 +95,39 @@ export const reducer = (state = INITIAL_STATE, action) => {
   if ([ADD_ACTION, UPDATE_ACTION].includes(type)) {
     return {
       ...state,
-      actions: {
+      actions: [
         ...state.actions,
-        [action.data.name]: { ...action.data.details }
-      }
+        {
+          ...action.data.details,
+          name: action.data.name
+        }
+      ]
+    };
+  }
+
+  if (type === REORDER_ACTIONS) {
+    const { oldIndex, newIndex } = action.data;
+    const a = oldIndex > newIndex ? newIndex : oldIndex;
+    const b = oldIndex > newIndex ? oldIndex : newIndex;
+
+    return {
+      ...state,
+      actions: [
+        ...state.actions.slice(0, a),
+        state.actions[b],
+        ...state.actions.slice(a + 1, b),
+        state.actions[a],
+        ...state.actions.slice(b + 1)
+      ]
     };
   }
 
   if (type === REMOVE_ACTION) {
+    const filtered = state.actions.filter(a => a.name !== action.data.action);
+    debugger;
     return {
       ...state,
-      actions: {
-        ...state.actions,
-        [action.data.name]: { ...action.data.details }
-      }
+      actions: [...filtered]
     };
   }
 

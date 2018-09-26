@@ -11,6 +11,7 @@ import {
   ADD_ACTION,
   UPDATE_ACTION,
   REMOVE_ACTION,
+  REORDER_ACTIONS,
   TEST_RULESET_SUCCESS,
   TEST_RULESET_FAILURE
 } from './types.js';
@@ -104,6 +105,14 @@ export function removeAction(action) {
     });
 }
 
+export function reorderActions(oldIndex, newIndex) {
+  return dispatch =>
+    dispatch({
+      type: REORDER_ACTIONS,
+      data: { oldIndex, newIndex }
+    });
+}
+
 export function testRuleset(data) {
   return dispatch =>
     api
@@ -126,5 +135,6 @@ export default {
   addAction,
   updateAction,
   removeAction,
+  reorderActions,
   testRuleset
 };
