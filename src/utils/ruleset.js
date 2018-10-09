@@ -24,6 +24,7 @@ function formatMultipleValues(rule) {
 }
 
 function processChild(id, rules) {
+  debugger;
   var parent = rules[id];
   if (!('children' in parent)) {
     return visitChild(parent, formatMultipleValues);
@@ -44,6 +45,7 @@ export function transformRuleset(ruleset) {
 
   const root = extractRoot(rules);
   const acc = { [root.condition]: root.children };
+  // {all: [2, 3, 4]}
   processChild(root.id, rules);
   return acc;
 }
