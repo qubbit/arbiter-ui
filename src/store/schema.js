@@ -31,7 +31,21 @@ export const FACTS = [
 export const ACTIONS = {
   convert_to_fax: {
     label: 'Convert to fax',
-    params: [{ name: 'message', type: 'string' }]
+    params: []
+  },
+  request_log: {
+    label: 'Add a log entry',
+    params: [
+      { name: 'message', type: 'string' },
+      { name: 'name', type: 'string' }
+    ]
+  },
+  add_error_section: {
+    label: 'Add an error section',
+    params: [
+      { name: 'description', type: 'string' },
+      { name: 'recommend_epa_form_change', type: 'string' }
+    ]
   },
   close_pa: { label: 'Close PA with a fail touch', params: [] },
   set_user_retryable: {
