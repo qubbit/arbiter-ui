@@ -24,8 +24,8 @@ function formatMultipleValues(rule) {
 }
 
 function processChild(id, rules) {
-  debugger;
   var parent = rules[id];
+
   if (!('children' in parent)) {
     return visitChild(parent, formatMultipleValues);
   }

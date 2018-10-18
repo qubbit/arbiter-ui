@@ -124,7 +124,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
 
   if (type === REMOVE_ACTION) {
     const filtered = state.actions.filter(a => a.name !== action.data.action);
-    debugger;
+
     return {
       ...state,
       actions: [...filtered]
