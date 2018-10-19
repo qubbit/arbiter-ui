@@ -24,6 +24,7 @@
     "antd": "^3.9.2",
     "babel-runtime": "6.26.0",
     "classnames": "^2.2.5",
+    "date-fns": "^2.0.0-alpha.23",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",

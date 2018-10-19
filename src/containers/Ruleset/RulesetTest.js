@@ -20,6 +20,11 @@ class RulesetTest extends Component {
     this.props.testRuleset(data);
   };
 
+  submitRuleset = () => {
+    const { rules, actions } = this.props.ruleset;
+    this.props.submitRuleset({ rules, actions });
+  };
+
   renderFact(fact) {
     return (
       <Input
@@ -115,6 +120,7 @@ class RulesetTest extends Component {
               type="primary"
               icon="save"
               disabled={pristine || submitting}
+              onClick={this.submitRuleset}
             >
               Create Ruleset
             </Button>

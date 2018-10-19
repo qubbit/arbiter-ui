@@ -140,6 +140,7 @@ class Actions extends Component {
                               {rulesetActions[index].params.map(param => {
                                 return (
                                   <div
+                                    style={{ marginBottom: '20px' }}
                                     key={`action-${a.name}-param-${param.name}`}
                                   >
                                     <Input addonBefore={param.name} />

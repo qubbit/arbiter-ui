@@ -13,7 +13,9 @@ import {
   REMOVE_ACTION,
   REORDER_ACTIONS,
   TEST_RULESET_SUCCESS,
-  TEST_RULESET_FAILURE
+  TEST_RULESET_FAILURE,
+  SUBMIT_RULESET_SUCCESS,
+  SUBMIT_RULESET_FAILURE
 } from './types.js';
 
 export function addRule(parentId) {
@@ -122,6 +124,18 @@ export function testRuleset(data) {
       })
       .catch(error => {
         dispatch({ type: TEST_RULESET_FAILURE, error });
+      });
+}
+
+export function submitRuleset(data) {
+  return dispatch =>
+    api
+      .post('/rulesets', data)
+      .then(response => {
+        dispatch({ type: SUBMIT_RULESET_SUCCESS, response });
+      })
+      .catch(error => {
+        dispatch({ type: SUBMIT_RULESET_FAILURE, error });
       });
 }
 

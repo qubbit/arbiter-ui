@@ -15,7 +15,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
     case FETCH_RULESETS_REQUEST:
       return { ...state, loading: true };
     case FETCH_RULESETS_SUCCESS:
-      return { ...state, rulesets: action.response };
+      return { ...state, rulesets: action.response, loading: false };
     default:
       return state;
   }

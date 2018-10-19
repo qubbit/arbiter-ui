@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'store';
-import { Table, Divider, Tag } from 'antd';
+import { Table } from 'antd';
+import { format, formatDistance } from 'date-fns';
 
 class ShowRulesets extends Component {
   componentDidMount() {
@@ -10,7 +11,11 @@ class ShowRulesets extends Component {
   }
 
   render() {
-    const { rulesets } = this.props;
+    const { rulesets, loading } = this.props;
+
+    if (loading) {
+      return <div>Loading...</div>;
+    }
 
     if (rulesets.length === 0) {
       return <div>There are no rulesets here</div>;
@@ -25,7 +30,17 @@ class ShowRulesets extends Component {
       {
         title: 'Created',
         dataIndex: 'created_at',
-        key: 'created_at'
+        key: 'created_at',
+        render: created_at => (
+          <span>
+            <span>
+              {format(new Date(created_at), 'MM/dd/YYYY', {
+                awareOfUnicodeTokens: true
+              })}{' '}
+            </span>
+            (<em>{formatDistance(new Date(created_at), new Date())}</em>)
+          </span>
+        )
       },
       {
         title: 'Active',
