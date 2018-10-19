@@ -52,6 +52,7 @@ const rules = (state, action) => {
   switch (action.type) {
     case RULE_OP_ADD_RULE:
     case RULE_OP_ADD_RULE_GROUP:
+      const type = action.type == RULE_OP_ADD_RULE ? 'rule' : 'ruleset';
       var parent = state.rules[parentId];
       return {
         ...state.rules,
@@ -59,7 +60,7 @@ const rules = (state, action) => {
           ...parent,
           children: [...parent.children, id]
         },
-        [id]: { ...action.data.rule, parentId }
+        [id]: { ...action.data.rule, type, parentId }
       };
     case RULE_OP_REMOVE_RULE:
     case RULE_OP_REMOVE_RULE_GROUP:
