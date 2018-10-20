@@ -65,7 +65,7 @@ export const ACTIONS = {
 const initialState = {
   name: 'Response Modifier',
   config: { findBy: 'epa_type' },
-  keysExcludedFromPreview: ['id', 'parentId'],
+  keysExcludedFromPreview: ['id', 'parentId', 'type'],
   operators: [...OPERATORS],
   facts: [...FACTS],
   actions: { ...ACTIONS }

@@ -16,7 +16,7 @@ function formatMultipleValues(rule) {
   if (['in', 'not_in'].includes(rule.operator)) {
     const value = rule.value;
     rule.value =
-      ![undefined, null].includes(value) && value.split(',').map(v => v.trim());
+      ![undefined, null].includes(value) && value.split(';').map(v => v.trim());
     return rule;
   } else {
     return rule;

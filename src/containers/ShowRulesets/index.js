@@ -2,13 +2,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'store';
-import { Table } from 'antd';
+import { Checkbox, Table } from 'antd';
 import { format, formatDistance } from 'date-fns';
 
 class ShowRulesets extends Component {
   componentDidMount() {
     this.props.fetchRulesets();
   }
+
+  onRulesetToggle = (id, e) => {
+    this.props.toggleRulesetActive({
+      ruleset_partner_mapping_id: id,
+      active: e.target.checked
+    });
+  };
 
   render() {
     const { rulesets, loading } = this.props;
@@ -43,16 +50,22 @@ class ShowRulesets extends Component {
         )
       },
       {
-        title: 'Active',
-        dataIndex: 'is_active',
-        key: 'is_active',
-        render: is_active => (is_active ? 'Yes' : 'No')
+        render: mapping => {
+          return (
+            <Checkbox
+              checked={mapping.is_active}
+              onChange={e => this.onRulesetToggle(mapping.id, e)}
+            >
+              {mapping.is_active ? 'Active' : 'Inactive'}
+            </Checkbox>
+          );
+        }
       }
     ];
 
     return (
       <div className="page view-rulesets">
-        <Table dataSource={rulesets} columns={columns} />
+        <Table rowKey="id" dataSource={rulesets} columns={columns} />
       </div>
     );
   }
