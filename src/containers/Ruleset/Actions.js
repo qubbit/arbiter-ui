@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actions } from 'store';
+import { actions } from '../../store/index.js';
 import { Timeline, Icon, Input, Button, Select } from 'antd';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
