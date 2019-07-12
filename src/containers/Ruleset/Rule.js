@@ -92,24 +92,22 @@ class Rule extends Component {
           icon="delete"
           onClick={this.removeRule}
         />
-        {test &&
-          test.success && (
-            <Icon
-              style={{ marginRight: '20px' }}
-              type="check-circle"
-              theme="twoTone"
-              twoToneColor="#52c41a"
-            />
-          )}
-        {test &&
-          !test.success && (
-            <Icon
-              style={{ marginRight: '20px' }}
-              type="exclamation-circle"
-              theme="twoTone"
-              twoToneColor="#f44336"
-            />
-          )}
+        {test && test.success && (
+          <Icon
+            style={{ marginRight: '20px' }}
+            type="check-circle"
+            theme="twoTone"
+            twoToneColor="#52c41a"
+          />
+        )}
+        {test && !test.success && (
+          <Icon
+            style={{ marginRight: '20px' }}
+            type="exclamation-circle"
+            theme="twoTone"
+            twoToneColor="#f44336"
+          />
+        )}
       </div>
     );
   }

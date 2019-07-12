@@ -1,8 +1,6 @@
 import {
   FETCH_RULESETS_REQUEST,
   FETCH_RULESETS_SUCCESS,
-  FETCH_RULESETS_FAILURE,
-  TOGGLE_RULESET_ACTIVE_REQUEST,
   TOGGLE_RULESET_ACTIVE_SUCCESS
 } from '../actions/types.js';
 
@@ -20,8 +18,8 @@ export const reducer = (state = INITIAL_STATE, action) => {
       return { ...state, rulesets: action.response, loading: false };
     case TOGGLE_RULESET_ACTIVE_SUCCESS:
       const updated = action.response;
-      const updatedRulesets = state.rulesets.map(
-        r => (r.id === updated.id ? updated : r)
+      const updatedRulesets = state.rulesets.map(r =>
+        r.id === updated.id ? updated : r
       );
       return { ...state, rulesets: [...updatedRulesets], loading: false };
     default:

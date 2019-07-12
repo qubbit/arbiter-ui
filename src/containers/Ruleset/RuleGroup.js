@@ -28,18 +28,14 @@ class RuleGroup extends Component {
 
   updateGroup = (key, value) => {
     console.info(
-      `Updating group ${this.props.rule.id} inside group ${
-        this.props.rule.parentId
-      }`
+      `Updating group ${this.props.rule.id} inside group ${this.props.rule.parentId}`
     );
     this.props.updateRuleGroup(this.props.rule.id, { [key]: value });
   };
 
   removeGroup = event => {
     console.info(
-      `Removing nested group ${this.props.rule.id} inside group ${
-        this.props.rule.parentId
-      }`
+      `Removing nested group ${this.props.rule.id} inside group ${this.props.rule.parentId}`
     );
     this.props.removeRuleGroup(this.props.rule.id, this.props.rule.parentId);
   };
